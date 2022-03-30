@@ -12,7 +12,11 @@
 
 
 #### 项目视频
-[基于Spring的小区物业管理系统](https://www.bilibili.com/video/BV1yu411v7oZ/)
+[项目视频：基于Spring的小区物业管理系统](https://www.bilibili.com/video/BV1yu411v7oZ/)
+
+[项目视频：基于Spring的小区物业管理系统](https://www.bilibili.com/video/BV1yu411v7oZ/)
+
+[项目视频：基于Spring的小区物业管理系统](https://www.bilibili.com/video/BV1yu411v7oZ/)
 
 
 
