@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.HousesInfoMapper">
+
+    <!-- 分页获取房屋信息 -->
+    <select id="housesInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        hi.id,
+        hi.address,
+        hi.building_id AS buildingId,
+        hi.number,
+        hi.floor,
+        hi.usage_area AS usageArea,
+        hi.surface_area AS surfaceArea,
+        hi.nature,
+        hi.rooms,
+        hi.staff_id AS staffId,
+        hi.owner_id AS ownerId,
+        hi.buyer,
+        hi.create_date AS createDate,
+        oi.name,
+        oi.phone,
+        oi.id_number AS idNumber,
+        bi.name AS buildName,
+        bi.address AS buildAddress,
+        bi.street,
+        bi.community,
+        bi.usage_area AS buildUsageArea,
+        bi.surface_area AS buildSurfaceArea,
+        bi.type,
+        bi.rooms AS buildRooms,
+        bi.units,
+        bi.layers,
+        bi.images,
+        wi.name AS workerName,
+        wi.phone AS workerPhone,
+        wi.image AS workerImage
+        FROM
+        houses_info hi
+        LEFT JOIN building_info bi ON ( bi.id = hi.building_id )
+        LEFT JOIN owner_info oi ON ( oi.id = hi.owner_id )
+        LEFT JOIN worker_info wi ON (wi.id = hi.staff_id)
+        WHERE
+        1 = 1
+        <if test="housesInfo.address != null and housesInfo.address != ''">
+            AND hi.address LIKE CONCAT('%',#{housesInfo.address},'%')
+        </if>
+        <if test="housesInfo.nature != null and housesInfo.nature != ''">
+            AND hi.nature = #{housesInfo.nature}
+        </if>
+        <if test="housesInfo.buyer != null and housesInfo.buyer != ''">
+            AND hi.buyer LIKE CONCAT('%',#{housesInfo.buyer},'%')
+        </if>
+        <if test="housesInfo.community != null and housesInfo.community != ''">
+            AND bi.community LIKE CONCAT('%',#{housesInfo.community},'%')
+        </if>
+        ORDER BY hi.create_date DESC
+    </select>
+
+    <!-- 根据业主ID获取房屋 -->
+    <select id="housesInfoByOwnerId" resultType="java.util.LinkedHashMap">
+        SELECT
+        hi.id,
+        hi.address,
+        hi.building_id AS buildingId,
+        hi.number,
+        hi.floor,
+        hi.usage_area AS usageArea,
+        hi.surface_area AS surfaceArea,
+        hi.nature,
+        hi.rooms,
+        hi.staff_id AS staffId,
+        hi.owner_id AS ownerId,
+        hi.buyer,
+        bi.images
+        FROM
+        houses_info hi
+        LEFT JOIN building_info bi ON ( bi.id = hi.building_id )
+        WHERE
+        1 = 1
+        AND hi.owner_id = #{ ownerId }
+    </select>
+
+    <!-- 根据房屋ID获取上月水电费 -->
+    <select id="housesConsumption" resultType="java.util.LinkedHashMap">
+        SELECT
+        ci.*
+        FROM
+        consumption_info ci
+        WHERE
+        ci.houses_id = #{ housesId }
+        AND DATE_FORMAT( concat( ci.`year`, '-', ci.`month`, '-', '01' ), '%Y-%m' ) = DATE_FORMAT(
+            DATE_SUB( now(), INTERVAL 1 MONTH ),
+        '%Y-%m')
+    </select>
+
+    <!-- 查询房屋本月是否有缴费项 -->
+    <select id="housesConsumptionMonth" resultType="java.util.LinkedHashMap">
+        SELECT
+        ci.*
+        FROM
+        consumption_info ci
+        WHERE
+        ci.houses_id = #{ housesId }
+        AND DATE_FORMAT( concat( ci.`year`, '-', ci.`month`, '-', '01' ), '%Y-%m' ) = DATE_FORMAT(
+            now(),
+        '%Y-%m')
+    </select>
+
+    <!-- 房屋类型占比 -->
+    <select id="housesTypeRate" resultType="java.util.LinkedHashMap">
+        SELECT
+        COUNT( 1 ) AS num,
+        CASE
+            nature
+            WHEN 1 THEN
+            '住宅楼房'
+            WHEN 2 THEN
+            '社区用处'
+        END AS nature
+        FROM
+        houses_info hi
+        GROUP BY
+        hi.nature
+    </select>
+
+    <!-- 根据用户获取房屋信息 -->
+    <select id="housesListByOwnerId" resultType="java.util.LinkedHashMap">
+        SELECT
+        hi.id,
+        hi.address,
+        hi.building_id AS buildingId,
+        hi.number,
+        hi.floor,
+        hi.usage_area AS usageArea,
+        hi.surface_area AS surfaceArea,
+        hi.nature,
+        hi.rooms,
+        hi.staff_id AS staffId,
+        hi.owner_id AS ownerId,
+        hi.buyer,
+        hi.create_date AS createDate,
+        oi.name,
+        oi.phone,
+        oi.id_number AS idNumber,
+        bi.name AS buildName,
+        bi.address AS buildAddress,
+        bi.street,
+        bi.community,
+        bi.usage_area AS buildUsageArea,
+        bi.surface_area AS buildSurfaceArea,
+        bi.type,
+        bi.rooms AS buildRooms,
+        bi.units,
+        bi.layers,
+        bi.images,
+        wi.name AS workerName,
+        wi.phone AS workerPhone,
+        wi.image AS workerImage,
+        ri.id AS repairId,
+	    ri.repair_status AS repairStatus
+        FROM
+        houses_info hi
+        LEFT JOIN building_info bi ON ( bi.id = hi.building_id )
+        LEFT JOIN owner_info oi ON ( oi.id = hi.owner_id )
+        LEFT JOIN worker_info wi ON (wi.id = hi.staff_id)
+        LEFT JOIN repair_info ri ON (ri.houses_id = hi.id) AND ri.repair_status != 2
+        WHERE
+        1 = 1
+        AND oi.user_id = #{ userId }
+    </select>
+</mapper>

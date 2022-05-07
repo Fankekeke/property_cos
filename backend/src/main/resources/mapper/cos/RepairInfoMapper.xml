@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.RepairInfoMapper">
+
+    <!-- 分页查询维修信息 -->
+    <select id="repairInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        ri.id,
+        ri.code,
+        ri.content,
+        ri.images,
+        ri.worker,
+        ri.repair_status AS repairStatus,
+        ri.create_date AS createDate,
+        oi.name,
+        oi.phone,
+        tu.LAST_LOGIN_TIME AS lastTime,
+        hi.address,
+        hi.number,
+        hi.floor,
+        wi.name AS workerName,
+        wi.phone AS workerPhone,
+        wi.image AS workerImage
+        FROM
+        repair_info ri
+        LEFT JOIN t_user tu ON ( tu.USER_ID = ri.user_id )
+        LEFT JOIN owner_info oi ON ( oi.user_id = tu.USER_ID )
+        LEFT JOIN houses_info hi ON ( hi.id = ri.houses_id )
+        LEFT JOIN worker_info wi ON ( wi.id = ri.worker )
+        WHERE
+        1 = 1
+        <if test="repairInfo.name != null and repairInfo.name != ''">
+            AND oi.name LIKE CONCAT('%',#{repairInfo.name},'%')
+        </if>
+        <if test="repairInfo.phone != null and repairInfo.phone != ''">
+            AND oi.phone LIKE CONCAT('%',#{repairInfo.phone},'%')
+        </if>
+        <if test="repairInfo.repairStatus != null and repairInfo.repairStatus != ''">
+            AND ri.repair_status = #{repairInfo.repairStatus}
+        </if>
+        ORDER BY ri.create_date
+    </select>
+
+    <!-- 查看维修详情 -->
+    <select id="repairInfoById" resultType="java.util.LinkedHashMap">
+        SELECT
+        ri.id,
+        ri.code,
+        ri.content,
+        ri.images,
+        ri.worker,
+        ri.repair_status AS repairStatus,
+        ri.create_date AS createDate,
+        oi.name,
+        oi.phone,
+        tu.LAST_LOGIN_TIME AS lastTime,
+        hi.address,
+        hi.number,
+        hi.floor,
+        wi.name AS workerName,
+        wi.phone AS workerPhone,
+        wi.image AS workerImage
+        FROM
+        repair_info ri
+        LEFT JOIN t_user tu ON ( tu.USER_ID = ri.user_id )
+        LEFT JOIN owner_info oi ON ( oi.user_id = tu.USER_ID )
+        LEFT JOIN houses_info hi ON ( hi.id = ri.houses_id )
+        LEFT JOIN worker_info wi ON ( wi.id = ri.worker )
+        WHERE
+        1 = 1
+        AND ri.id = #{ repairId }
+    </select>
+</mapper>

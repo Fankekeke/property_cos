@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.PropertyItemMapper">
+
+    <!-- 分页查询物业管理项 -->
+    <select id="propertyItemByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        pi.id,
+        pi.name,
+        pi.price,
+        pi.type,
+        pi.unit,
+        pi.create_date AS createDate
+        FROM
+        property_item pi
+        WHERE
+        1 = 1
+        <if test="propertyItem.name != null and propertyItem.name != ''">
+            AND pi.name LIKE CONCAT('%',#{propertyItem.name},'%')
+        </if>
+        <if test="propertyItem.type != null and propertyItem.type != ''">
+            AND pi.type = #{propertyItem.type}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.BuildingInfoMapper">
+
+    <!-- 分页获取楼宇信息 -->
+    <select id="buildingInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        bi.id,
+        bi.name,
+        bi.address,
+        bi.street,
+        bi.community,
+        bi.usage_area AS usageArea,
+        bi.surface_area AS surfaceArea,
+        bi.type,
+        bi.rooms,
+        bi.units,
+        bi.layers,
+        bi.images,
+        bi.create_date AS createDate
+        FROM
+        building_info bi
+        WHERE 1 = 1
+        <if test="buildingInfo.name != null and buildingInfo.name != ''">
+            AND bi.name LIKE CONCAT('%',#{buildingInfo.name},'%')
+        </if>
+        <if test="buildingInfo.address != null and buildingInfo.address != ''">
+            AND bi.address LIKE CONCAT('%',#{buildingInfo.address},'%')
+        </if>
+        <if test="buildingInfo.community != null and buildingInfo.community != ''">
+            AND bi.community LIKE CONCAT('%',#{buildingInfo.community},'%')
+        </if>
+        <if test="buildingInfo.type != null and buildingInfo.type != ''">
+            AND bi.type = #{buildingInfo.type}
+        </if>
+        ORDER BY bi.create_date DESC
+    </select>
+</mapper>

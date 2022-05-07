@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.BulletinInfoMapper">
+
+    <!-- 分页获取公告信息 -->
+    <select id="bulletinInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        bi.id,
+        bi.title,
+        bi.content,
+        bi.date,
+        bi.images,
+        bi.publisher
+        FROM
+        bulletin_info bi
+        WHERE 1 = 1
+        <if test="bulletinInfo.title != null and bulletinInfo.title != ''">
+            AND bi.title LIKE CONCAT('%',#{bulletinInfo.title},'%')
+        </if>
+        <if test="bulletinInfo.content != null and bulletinInfo.content != ''">
+            AND bi.content LIKE CONCAT('%',#{bulletinInfo.content},'%')
+        </if>
+        ORDER BY bi.date
+    </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.WorkerInfoMapper">
+
+    <!-- 分页查询工作人员信息 -->
+    <select id="workerInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        wi.id,
+        wi.name,
+        wi.phone,
+        wi.image,
+        wi.type,
+        wi.create_date AS createDate
+        FROM
+        worker_info wi
+        WHERE 1 = 1
+        <if test="workerInfo.name != null and workerInfo.name != ''">
+            AND wi.name LIKE CONCAT('%',#{workerInfo.name},'%')
+        </if>
+        <if test="workerInfo.phone != null and workerInfo.phone != ''">
+            AND wi.phone LIKE CONCAT('%',#{workerInfo.phone},'%')
+        </if>
+        <if test="workerInfo.type != null and workerInfo.type != ''">
+            AND wi.type = #{workerInfo.type}
+        </if>
+    </select>
+
+</mapper>

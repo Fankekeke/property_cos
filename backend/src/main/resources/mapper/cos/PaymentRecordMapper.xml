@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.PaymentRecordMapper">
+
+    <!-- 分页查询缴纳记录 -->
+    <select id="paymentRecordByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        pr.id,
+        pr.create_date AS createDate,
+        pr.payment_type AS paymentType,
+        pm.`year`,
+        pm.`month`,
+        pm.type,
+        pm.price,
+        pm.dosage,
+        oi.`name`,
+        oi.phone,
+        oi.id_number AS idNumber,
+        hi.address,
+        hi.number,
+        hi.floor,
+        hi.usage_area AS usageArea,
+        hi.surface_area AS surfaceArea,
+        hi.nature,
+        hi.rooms,
+        pi.`name` AS propertyName,
+        pi.price AS propertyPrice,
+        pi.type AS propertyType,
+        pi.unit AS propertyUnit
+        FROM
+        payment_record pr
+        LEFT JOIN payment_manage pm ON ( pm.id = pr.payment_id )
+        LEFT JOIN houses_info hi ON ( hi.id = pm.houses_id )
+        LEFT JOIN owner_info oi ON ( oi.id = hi.owner_id )
+        LEFT JOIN property_item pi ON ( pi.id = pm.type )
+        WHERE
+        1 = 1
+        <if test="paymentRecord.name != null and paymentRecord.name != ''">
+            AND oi.name LIKE CONCAT('%',#{paymentRecord.name},'%')
+        </if>
+        <if test="paymentRecord.type != null and paymentRecord.type != ''">
+            AND pm.type = #{paymentRecord.type}
+        </if>
+        <if test="paymentRecord.address != null and paymentRecord.address != ''">
+            AND hi.address = LIKE CONCAT('%',#{paymentRecord.address},'%')
+        </if>
+        <if test="paymentRecord.userId != null and paymentRecord.userId != ''">
+            AND oi.user_id = #{paymentRecord.userId}
+        </if>
+    </select>
+</mapper>

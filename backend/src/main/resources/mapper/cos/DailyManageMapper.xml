@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.DailyManageMapper">
+
+    <!-- 分页获取日常管理信息 -->
+    <select id="dailyInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        dm.id,
+        dm.type,
+        dm.content,
+        dm.images,
+        dm.user_id AS userId,
+        dm.create_date AS createDate,
+        dm.read_status AS readStatus,
+        dm.worker AS worker,
+        tu.USERNAME AS userName,
+        wi.`name` AS workerName,
+        wi.phone,
+        wi.image
+        FROM
+        daily_manage dm
+        LEFT JOIN t_user tu ON ( tu.USER_ID = dm.user_id )
+        LEFT JOIN worker_info wi ON ( wi.id = dm.worker )
+        WHERE
+        1 = 1
+        <if test="dailyManage.content != null and dailyManage.content != ''">
+            AND dm.content LIKE CONCAT('%',#{dailyManage.content},'%')
+        </if>
+        <if test="dailyManage.type != null and dailyManage.type != ''">
+            AND dm.type = #{dailyManage.type}
+        </if>
+        <if test="dailyManage.userId != null and dailyManage.userId != ''">
+            AND dm.user_id = #{dailyManage.userId}
+        </if>
+        ORDER BY dm.create_date DESC
+    </select>
+</mapper>

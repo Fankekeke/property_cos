@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.PaymentManageMapper">
+
+    <!-- 分页查询缴纳费用管理 -->
+    <select id="paymentManageByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        pm.id,
+        pm.houses_id AS housesId,
+        pm.year,
+        pm.month,
+        pm.type,
+        pm.price,
+        pm.dosage,
+        oi.name,
+        oi.phone,
+        oi.id_number AS idNumber,
+        hi.address,
+        hi.number,
+        hi.floor,
+        hi.usage_area AS usageArea,
+        hi.surface_area AS surfaceArea,
+        hi.nature,
+        hi.rooms,
+        pr.create_date AS createDate,
+        pr.payment_type AS paymentType,
+        pi.`name` AS propertyName,
+        pi.price AS propertyPrice,
+        pi.type AS propertyType,
+        pi.unit AS propertyUnit
+        FROM
+        payment_manage pm
+        LEFT JOIN houses_info hi ON ( hi.id = pm.houses_id )
+        LEFT JOIN owner_info oi ON ( oi.id = hi.owner_id )
+        LEFT JOIN payment_record pr ON ( pr.payment_id = pm.id )
+        LEFT JOIN property_item pi ON (pi.id = pm.type)
+        WHERE
+        1 = 1
+        <if test="paymentManage.name != null and paymentManage.name != ''">
+            AND oi.name LIKE CONCAT('%',#{paymentManage.name},'%')
+        </if>
+        <if test="paymentManage.type != null and paymentManage.type != ''">
+            AND pm.type = #{paymentManage.type}
+        </if>
+        <if test="paymentManage.address != null and paymentManage.address != ''">
+            AND hi.address = LIKE CONCAT('%',#{paymentManage.address},'%')
+        </if>
+        <if test="paymentManage.userId != null and paymentManage.userId != ''">
+            AND oi.user_id = #{paymentManage.userId}
+        </if>
+    </select>
+
+    <!-- 预收金额及已收金额 -->
+    <select id="collectionInfo" resultType="java.util.LinkedHashMap">
+        SELECT
+        *
+        FROM
+        ( SELECT IFNULL(SUM( pm.price ), 0) AS received FROM payment_manage pm ) AS on1,
+        ( SELECT IFNULL(SUM( pm.price ),0) AS advance FROM payment_manage pm, payment_record pr WHERE pr.payment_id = pm.id ) AS on2
+    </select>
+
+    <!-- 本年预收情况统计 -->
+    <select id="propertyItemYear" resultType="java.util.LinkedHashMap">
+        SELECT * FROM (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month1
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '1', '-', '01' ), '%Y-%m')) AS on1,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month2
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '2', '-', '01' ), '%Y-%m')) AS on2,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month3
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '3', '-', '01' ), '%Y-%m')) AS on3,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month4
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '4', '-', '01' ), '%Y-%m')) AS on12,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month5
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '5', '-', '01' ), '%Y-%m')) AS on4,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month6
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '6', '-', '01' ), '%Y-%m')) AS on5,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month7
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '7', '-', '01' ), '%Y-%m')) AS on6,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month8
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '8', '-', '01' ), '%Y-%m')) AS on7,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month9
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '9', '-', '01' ), '%Y-%m')) AS on8,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month10
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '10', '-', '01' ), '%Y-%m')) AS on9,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month11
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '11', '-', '01' ), '%Y-%m')) AS on10,
+            (SELECT
+            IFNULL(SUM( pm.price ) ,0) AS month12
+        FROM
+            payment_manage pm
+        WHERE
+            DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '12', '-', '01' ), '%Y-%m')) AS on11
+    </select>
+
+    <!-- 需缴费及总水电消耗 -->
+    <select id="payableRate" resultType="java.util.LinkedHashMap">
+        SELECT IFNULL(on2.allPrice - on1.paid, 0) AS unpaid, on3.*, on4.* FROM (SELECT
+        IFNULL(SUM( pm.price ) ,0) AS paid
+        FROM
+        payment_manage pm,
+        payment_record pr,
+        houses_info hi
+        WHERE
+        hi.owner_id = #{ userId } and pr.payment_id = pm.id and hi.id = pm.houses_id) AS on1,
+        (SELECT
+        SUM( pm.price ) AS allPrice
+        FROM
+        payment_manage pm
+        LEFT JOIN houses_info hi ON (hi.id = pm.houses_id) WHERE hi.owner_id = #{ userId }) AS on2,
+        (SELECT IFNULL(SUM( pm.dosage ) ,0) AS electricity FROM payment_manage pm
+        LEFT JOIN houses_info hi ON (hi.id = pm.houses_id)
+        WHERE hi.owner_id = #{ userId } AND pm.type = 1) AS on3,
+        (SELECT IFNULL(SUM( pm.dosage ) ,0) AS water FROM payment_manage pm
+        LEFT JOIN houses_info hi ON (hi.id = pm.houses_id)
+        WHERE hi.owner_id = #{ userId } AND pm.type = 2) AS on4
+    </select>
+
+    <!--  -->
+    <select id="epidemicRate" resultType="java.util.LinkedHashMap">
+        SELECT
+        DATE_FORMAT( spo.days, '%m-%d' ) AS days,
+        IFNULL(er.temperature,0) AS temperature
+        FROM
+        (
+        SELECT
+            DATE_SUB( curdate(), INTERVAL + 0 DAY ) days UNION
+        SELECT
+            DATE_SUB( curdate(), INTERVAL + 1 DAY ) UNION
+        SELECT
+            DATE_SUB( curdate(), INTERVAL + 2 DAY ) UNION
+        SELECT
+            DATE_SUB( curdate(), INTERVAL + 3 DAY ) UNION
+        SELECT
+            DATE_SUB( curdate(), INTERVAL + 4 DAY ) UNION
+        SELECT
+            DATE_SUB( curdate(), INTERVAL + 5 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 6 DAY )) spo
+        LEFT JOIN epidemic_register er ON (
+        DATE_FORMAT( er.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' ))
+        GROUP BY
+        days
+        ORDER BY
+        days ASC
+    </select>
+</mapper>

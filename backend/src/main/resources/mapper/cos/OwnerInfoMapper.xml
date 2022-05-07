@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.OwnerInfoMapper">
+
+    <!-- 分页获取业主信息 -->
+    <select id="ownerInfoByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        oi.id,
+        oi.name,
+        oi.phone,
+        oi.images,
+        oi.id_number AS idNumber,
+        oi.create_date AS createDate,
+        oi.user_id AS userId,
+        tu.USERNAME AS account,
+        tu.LAST_LOGIN_TIME AS lastTime,
+        COUNT( hi.owner_id ) AS housesNum
+        FROM
+        owner_info oi
+        LEFT JOIN t_user tu ON ( tu.USER_ID = oi.user_id )
+        LEFT JOIN houses_info hi ON ( hi.owner_id = oi.id )
+        WHERE
+        1 = 1
+        <if test="ownerInfo.name != null and ownerInfo.name != ''">
+            AND oi.name LIKE CONCAT('%',#{ownerInfo.name},'%')
+        </if>
+        <if test="ownerInfo.phone != null and ownerInfo.phone != ''">
+            AND oi.phone LIKE CONCAT('%',#{ownerInfo.phone},'%')
+        </if>
+        <if test="ownerInfo.idNumber != null and ownerInfo.idNumber != ''">
+            AND oi.id_number LIKE CONCAT('%',#{ownerInfo.idNumber},'%')
+        </if>
+        GROUP BY oi.id
+        ORDER BY
+        OI.create_date DESC
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.EpidemicRegisterMapper">
+
+    <!-- 分页获取防疫登记信息 -->
+    <select id="epidemicByPage" resultType="java.util.LinkedHashMap">
+        SELECT
+         er.id,
+         er.user_id AS userId,
+         er.temperature,
+         er.code_status AS codeStatus,
+         er.through_city AS throughCity,
+         er.create_date AS createDate,
+         oi.`name`,
+         oi.phone
+        FROM
+        epidemic_register er
+        LEFT JOIN t_user tu ON ( tu.USER_ID = er.user_id )
+        LEFT JOIN owner_info oi ON ( oi.user_id = tu.USER_ID)
+        WHERE
+        1 = 1
+        <if test="epidemicRegister.userId != null and epidemicRegister.userId != ''">
+            AND oi.user_id = #{epidemicRegister.userId}
+        </if>
+        <if test="epidemicRegister.name != null and epidemicRegister.name != ''">
+            AND oi.name LIKE CONCAT('%',#{epidemicRegister.name},'%')
+        </if>
+        <if test="epidemicRegister.phone != null and epidemicRegister.phone != ''">
+            AND oi.phone LIKE CONCAT('%',#{epidemicRegister.phone},'%')
+        </if>
+        ORDER BY er.create_date
+    </select>
+</mapper>
