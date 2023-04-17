@@ -23,11 +23,17 @@
               <a-col :span="4">
                 <head-info title="房屋数量" :content="housesNum" :center="false" :bordered="false"/>
               </a-col>
-              <a-col :span="4">
+              <!-- <a-col :span="4">
                 <head-info title="用水消耗" :content="water" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
                 <head-info title="用电消耗" :content="electricity" :center="false" />
+              </a-col> -->
+               <a-col :span="4">
+                <head-info title="应缴费用" :content="allPrice" :center="false" :bordered="false"/>
+              </a-col>
+              <a-col :span="4">
+                <head-info title="已缴费用" :content="paid" :center="false" />
               </a-col>
               <a-col :span="4">
                 <head-info title="未缴费用" :content="unpaid" :center="false" />
@@ -79,6 +85,16 @@
                     </a-card>
                   </a-col>
                 </a-row>
+              </a-col>
+            </a-row>
+          </a-col>
+          <a-col :span="24" v-else>
+            <a-row :gutter="8">
+              <a-col :span="12">
+                <a-card class="visit-count">
+                  <a-skeleton active v-if="loading" />
+                  <apexchart v-if="!loading" type="donut" :options="chartOptions4" :series="series4" height="309"></apexchart>
+                </a-card>
               </a-col>
             </a-row>
           </a-col>
@@ -231,6 +247,24 @@ export default {
           }
         }]
       },
+      series4: [],
+      chartOptions4: {
+        labels: [],
+        chart: {
+          type: 'donut'
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      },
       todayIp: '',
       todayVisitCount: '',
       totalVisitCount: '',
@@ -243,6 +277,8 @@ export default {
       housesNum: 0,
       electricity: 0,
       unpaid: 0,
+      allPrice: 0,
+      paid: 0,
       water: 0,
       received: 0,
       housesTypeRate: [],
@@ -297,6 +333,8 @@ export default {
             this.openNotification(this.unpaid)
           }
           this.water = r.data.water
+          this.allPrice = r.data.allPrice
+          this.paid = r.data.paid
           this.bulletinList = r.data.bulletinInfo
           let epidemicRateLabel = []
           let epidemicRateData = []
@@ -314,7 +352,12 @@ export default {
           this.ownerNum = r.data.ownerNum
           let propertyItemYear = r.data.propertyItemYear[0]
           let dataArr = [propertyItemYear.month1, propertyItemYear.month2, propertyItemYear.month3, propertyItemYear.month4, propertyItemYear.month5, propertyItemYear.month6, propertyItemYear.month7, propertyItemYear.month8, propertyItemYear.month9, propertyItemYear.month10, propertyItemYear.month11, propertyItemYear.month12]
-          this.series1[0].data = dataArr
+          let dataArr2 = [paidYear.month1, paidYear.month2, paidYear.month3, paidYear.month4, paidYear.month5, paidYear.month6, paidYear.month7, paidYear.month8, paidYear.month9, paidYear.month10, paidYear.month11, paidYear.month12]
+          let seriesData = [
+            {name: '预收金额', data: dataArr},
+            {name: '已收金额', data: dataArr2},
+          ]
+          this.series1 = seriesData
           this.propertyItemYear = r.data.propertyItemYear
           this.housesNum = r.data.housesNum
           this.received = r.data.received
@@ -324,6 +367,17 @@ export default {
             housesTypeRateLabel.push(item.nature)
             housesTypeRateData.push(item.num)
           })
+          let complaintRateLabel = []
+          let complaintRateData = []
+          if (r.data.complaint) {
+            r.data.complaint.forEach(item => {
+              complaintRateLabel.push(item.type)
+              complaintRateData.push(item.count)
+            })
+            this.series4 = complaintRateData
+            this.chartOptions4.labels = complaintRateLabel
+          }
+
           this.series3 = housesTypeRateData
           this.chartOptions3.labels = housesTypeRateLabel
           this.housesTypeRate = r.data.housesTypeRate
