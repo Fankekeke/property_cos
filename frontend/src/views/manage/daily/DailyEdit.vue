@@ -12,7 +12,7 @@
       <a-row :gutter="20">
         <a-col :span="12">
           <a-form-item label='类型' v-bind="formItemLayout">
-            <a-select v-decorator="[
+            <a-select disabled v-decorator="[
               'type',
               { rules: [{ required: true, message: '请输入类型!' }] }
               ]">
@@ -23,7 +23,7 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label='内容' v-bind="formItemLayout">
-            <a-textarea :auto-size="{ minRows: 3, maxRows: 5 }" v-decorator="[
+            <a-textarea disabled :auto-size="{ minRows: 3, maxRows: 5 }" v-decorator="[
             'content',
             { rules: [{ required: true, message: '请输入内容!' }] }
             ]"/>
@@ -39,13 +39,13 @@
               @preview="handlePreview"
               @change="picHandleChange"
             >
-              <div v-if="fileList.length < 8">
+              <!-- <div v-if="fileList.length < 8">
                 <a-icon type="plus" />
                 <div class="ant-upload-text">
                   Upload
                 </div>
               </div>
-            </a-upload>
+            </a-upload> -->
             <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
               <img alt="example" style="width: 100%" :src="previewImage" />
             </a-modal>
@@ -63,7 +63,7 @@
         </a-col>
         <a-col :span="6">
           <a-form-item label='完成情况' v-bind="formItemLayout">
-            <a-radio-group v-model="readStatus" button-style="solid">
+            <a-radio-group disabled v-model="readStatus" button-style="solid">
               <a-radio-button value="1">
                 未完成
               </a-radio-button>
