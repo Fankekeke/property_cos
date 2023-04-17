@@ -42,10 +42,16 @@
             AND pm.type = #{paymentRecord.type}
         </if>
         <if test="paymentRecord.address != null and paymentRecord.address != ''">
-            AND hi.address = LIKE CONCAT('%',#{paymentRecord.address},'%')
+            AND hi.address LIKE CONCAT('%',#{paymentRecord.address},'%')
         </if>
         <if test="paymentRecord.userId != null and paymentRecord.userId != ''">
             AND oi.user_id = #{paymentRecord.userId}
+        </if>
+        <if test="paymentRecord.year != null and paymentRecord.year != ''">
+            AND pr.year = #{paymentRecord.year}
+        </if>
+        <if test="paymentRecord.month != null and paymentRecord.month != ''">
+            AND pr.month = #{paymentRecord.month}
         </if>
     </select>
 </mapper>

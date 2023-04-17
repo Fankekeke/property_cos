@@ -74,6 +74,17 @@ public class HousesInfoController {
     }
 
     /**
+     * 查询房屋是否有缴费项
+     * @param housesId
+     * @param date
+     * @return
+     */
+    @GetMapping("/housesConsumptionCheck")
+    public R housesConsumptionCheck(@RequestParam Integer housesId, @RequestParam String date) {
+        return R.ok(housesInfoService.housesConsumptionCheck(housesId, date));
+    }
+
+    /**
      * 根据业主ID获取房屋
      * @param ownerId
      * @return

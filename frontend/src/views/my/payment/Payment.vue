@@ -23,6 +23,57 @@
                 </a-select>
               </a-form-item>
             </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="缴费状态"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 2}">
+                <a-select v-model="queryParams.payStatus" allowClear>
+                  <a-select-option value="1">未缴费</a-select-option>
+                  <a-select-option value="2">已缴费</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24" >
+              <a-form-item
+                label="缴费年份"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 2}">
+                <a-select v-model="queryParams.year" allowClear>
+                  <a-select-option value="2022">2022</a-select-option>
+                  <a-select-option value="2023">2023</a-select-option>
+                  <a-select-option value="2024">2024</a-select-option>
+                  <a-select-option value="2025">2025</a-select-option>
+                  <a-select-option value="2026">2026</a-select-option>
+                  <a-select-option value="2027">2027</a-select-option>
+                  <a-select-option value="2028">2028</a-select-option>
+                  <a-select-option value="2029">2029</a-select-option>
+                  <a-select-option value="2030">2030</a-select-option>
+                  <a-select-option value="2031">2031</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24" >
+              <a-form-item
+                label="缴费月份"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 2}">
+                <a-select v-model="queryParams.month" allowClear>
+                  <a-select-option value="1">1</a-select-option>
+                  <a-select-option value="2">2</a-select-option>
+                  <a-select-option value="3">3</a-select-option>
+                  <a-select-option value="4">4</a-select-option>
+                  <a-select-option value="5">5</a-select-option>
+                  <a-select-option value="6">6</a-select-option>
+                  <a-select-option value="7">7</a-select-option>
+                  <a-select-option value="8">8</a-select-option>
+                  <a-select-option value="9">9</a-select-option>
+                  <a-select-option value="10">10</a-select-option>
+                  <a-select-option value="11">11</a-select-option>
+                  <a-select-option value="12">12</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
           </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
@@ -338,6 +389,15 @@ export default {
       }
       if (params.type === undefined) {
         delete params.type
+      }
+      if (params.payStatus === undefined) {
+        delete params.payStatus
+      }
+      if (params.year === undefined) {
+        delete params.year
+      }
+      if (params.month === undefined) {
+        delete params.month
       }
       params.userId = this.currentUser.userId
       this.$get('/cos/payment-manage/page', {

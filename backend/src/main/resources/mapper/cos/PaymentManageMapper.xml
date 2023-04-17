@@ -43,10 +43,22 @@
             AND pm.type = #{paymentManage.type}
         </if>
         <if test="paymentManage.address != null and paymentManage.address != ''">
-            AND hi.address = LIKE CONCAT('%',#{paymentManage.address},'%')
+            AND hi.address LIKE CONCAT('%',#{paymentManage.address},'%')
         </if>
         <if test="paymentManage.userId != null and paymentManage.userId != ''">
             AND oi.user_id = #{paymentManage.userId}
+        </if>
+        <if test="paymentManage.payStatus != null and paymentManage.payStatus == 1">
+            AND pr.create_date is null
+        </if>
+        <if test="paymentManage.payStatus != null and paymentManage.payStatus == 2">
+            AND pr.create_date is not null
+        </if>
+        <if test="paymentManage.year != null and paymentManage.year != ''">
+            AND pm.year = #{paymentManage.year}
+        </if>
+        <if test="paymentManage.month != null and paymentManage.month != ''">
+            AND pm.month = #{paymentManage.month}
         </if>
     </select>
 
@@ -137,7 +149,7 @@
 
     <!-- 需缴费及总水电消耗 -->
     <select id="payableRate" resultType="java.util.LinkedHashMap">
-        SELECT IFNULL(on2.allPrice - on1.paid, 0) AS unpaid, on3.*, on4.* FROM (SELECT
+        SELECT on2.allPrice - on1.paid AS unpaid, on3.*, on4.* FROM (SELECT
         IFNULL(SUM( pm.price ) ,0) AS paid
         FROM
         payment_manage pm,
