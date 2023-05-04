@@ -21,6 +21,18 @@
                 <a-input v-model="queryParams.phone"/>
               </a-form-item>
             </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="状态"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 2}">
+                 <a-select v-model="queryParams.codeStatus">
+                    <a-select-option value="0">正常</a-select-option>
+                    <a-select-option value="1">异常</a-select-option>
+                    <a-select-option value="2">感染</a-select-option>
+                  </a-select>
+              </a-form-item>
+            </a-col>
           </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
@@ -267,8 +279,8 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      if (params.type === undefined) {
-        delete params.type
+      if (params.codeStatus === undefined) {
+        delete params.codeStatus
       }
       this.$get('/cos/epidemic-register/page', {
         ...params

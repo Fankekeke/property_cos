@@ -278,7 +278,7 @@
         SELECT
         DATE_SUB( curdate(), INTERVAL + 6 DAY )) spo
         LEFT JOIN epidemic_register er ON (
-        DATE_FORMAT( er.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' ))
+        DATE_FORMAT( er.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' ) AND er.user_id = #{userId})
         GROUP BY
         days
         ORDER BY

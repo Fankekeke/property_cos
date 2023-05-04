@@ -90,7 +90,7 @@ public class HousesInfoServiceImpl extends ServiceImpl<HousesInfoMapper, HousesI
             result.put("electricity", payableRate.get("electricity") != null ? payableRate.get("electricity").toString() : 0);
             result.put("water", payableRate.get("water") != null ? payableRate.get("water").toString() : 0);
             result.put("bulletinInfo", bulletinInfoService.list());
-            result.put("epidemicRate", paymentManageMapper.epidemicRate());
+            result.put("epidemicRate", paymentManageMapper.epidemicRate(type));
             // 投诉信息
             result.put("complaint", paymentManageMapper.selectComplaintRate(ownerInfo.getUserId()));
             return result;

@@ -38,6 +38,28 @@
             </a-select>
           </a-form-item>
         </a-col>
+       <a-col :span="24">
+          <a-form-item label='图册' v-bind="formItemLayout">
+            <a-upload
+              name="avatar"
+              action="http://127.0.0.1:9527/file/fileUpload/"
+              list-type="picture-card"
+              :file-list="fileList"
+              @preview="handlePreview"
+              @change="picHandleChange"
+            >
+              <div v-if="fileList.length < 8">
+                <a-icon type="plus" />
+                <div class="ant-upload-text">
+                  Upload
+                </div>
+              </div>
+            </a-upload>
+            <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+              <img alt="example" style="width: 100%" :src="previewImage" />
+            </a-modal>
+          </a-form-item>
+        </a-col>
       </a-row>
     </a-form>
   </a-modal>
@@ -109,8 +131,18 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
+      // 获取图片List
+      let images = []
+      this.fileList.forEach(image => {
+        if (image.response !== undefined) {
+          images.push(image.response)
+        } else {
+          images.push(image.name)
+        }
+      })
       this.form.validateFields((err, values) => {
         values.userId = this.currentUser.userId
+        values.images = images.length > 0 ? images.join(',') : null
         if (!err) {
           this.loading = true
           this.$post('/cos/epidemic-register', {
