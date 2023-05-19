@@ -74,8 +74,6 @@ public class HousesInfoServiceImpl extends ServiceImpl<HousesInfoMapper, HousesI
             result.put("received", collectionInfo.get("received").toString());
             result.put("advance", collectionInfo.get("advance").toString());
             result.put("bulletinInfo", bulletinInfoService.list());
-            // 已收情况统计
-            result.put("paidYear", paymentManageMapper.propertyItemYearPaid());
             result.put("propertyItemYear", paymentManageMapper.propertyItemYear());
             result.put("housesTypeRate", housesInfoMapper.housesTypeRate());
             return result;
@@ -85,14 +83,10 @@ public class HousesInfoServiceImpl extends ServiceImpl<HousesInfoMapper, HousesI
             result.put("housesNum", this.count(Wrappers.<HousesInfo>lambdaQuery().eq(HousesInfo::getOwnerId, ownerInfo.getId())));
             LinkedHashMap<String, Object> payableRate = paymentManageMapper.payableRate(ownerInfo.getId());
             result.put("unpaid", payableRate.get("unpaid") != null ? payableRate.get("unpaid").toString() : 0);
-            result.put("allPrice", payableRate.get("allPrice") != null ? payableRate.get("allPrice").toString() : 0);
-            result.put("paid", payableRate.get("paid") != null ? payableRate.get("paid").toString() : 0);
             result.put("electricity", payableRate.get("electricity") != null ? payableRate.get("electricity").toString() : 0);
             result.put("water", payableRate.get("water") != null ? payableRate.get("water").toString() : 0);
             result.put("bulletinInfo", bulletinInfoService.list());
-            result.put("epidemicRate", paymentManageMapper.epidemicRate(type));
-            // 投诉信息
-            result.put("complaint", paymentManageMapper.selectComplaintRate(ownerInfo.getUserId()));
+            result.put("epidemicRate", paymentManageMapper.epidemicRate());
             return result;
         }
     }

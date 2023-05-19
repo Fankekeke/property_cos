@@ -160,6 +160,8 @@ export default {
     axios.get('../../../static/file/city.json').then((r) => {
       this.citys = r.data
     })
+    this.areaId = '101010100'
+    this.searchWeather()
   },
   methods: {
     handleSearch (value) {

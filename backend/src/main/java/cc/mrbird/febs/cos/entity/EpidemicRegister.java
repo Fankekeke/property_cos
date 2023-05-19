@@ -47,11 +47,6 @@ public class EpidemicRegister implements Serializable {
     private String throughCity;
 
     /**
-     * 上传图片
-     */
-    private String images;
-
-    /**
      * 登记时间
      */
     private String createDate;

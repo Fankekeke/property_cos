@@ -8,7 +8,6 @@
          er.id,
          er.user_id AS userId,
          er.temperature,
-         er.images,
          er.code_status AS codeStatus,
          er.through_city AS throughCity,
          er.create_date AS createDate,
@@ -28,9 +27,6 @@
         </if>
         <if test="epidemicRegister.phone != null and epidemicRegister.phone != ''">
             AND oi.phone LIKE CONCAT('%',#{epidemicRegister.phone},'%')
-        </if>
-        <if test="epidemicRegister.codeStatus != null">
-            AND er.code_status = #{epidemicRegister.codeStatus}
         </if>
         ORDER BY er.create_date
     </select>

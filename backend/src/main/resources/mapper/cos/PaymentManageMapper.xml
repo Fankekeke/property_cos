@@ -43,7 +43,7 @@
             AND pm.type = #{paymentManage.type}
         </if>
         <if test="paymentManage.address != null and paymentManage.address != ''">
-            AND hi.address LIKE CONCAT('%',#{paymentManage.address},'%')
+            AND hi.address = LIKE CONCAT('%',#{paymentManage.address},'%')
         </if>
         <if test="paymentManage.userId != null and paymentManage.userId != ''">
             AND oi.user_id = #{paymentManage.userId}
@@ -67,17 +67,8 @@
         SELECT
         *
         FROM
-        ( SELECT IFNULL(SUM( pm.price ), 0) AS received FROM payment_manage pm WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) = DATE_FORMAT(
-        now(),
-        '%Y-%m')
-        ) AS on1,
-        ( SELECT IFNULL(SUM( pm.price ),0) AS advance FROM payment_manage pm, payment_record pr WHERE pr.payment_id = pm.id
-        AND
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) = DATE_FORMAT(
-        now(),
-        '%Y-%m')
-        ) AS on2
+        ( SELECT IFNULL(SUM( pm.price ), 0) AS received FROM payment_manage pm ) AS on1,
+        ( SELECT IFNULL(SUM( pm.price ),0) AS advance FROM payment_manage pm, payment_record pr WHERE pr.payment_id = pm.id ) AS on2
     </select>
 
     <!-- 本年预收情况统计 -->
@@ -156,86 +147,9 @@
             DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '12', '-', '01' ), '%Y-%m')) AS on11
     </select>
 
-
-    <!-- 本年已收情况统计 -->
-    <select id="propertyItemYearPaid" resultType="java.util.LinkedHashMap">
-        SELECT * FROM (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month1
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '1', '-', '01' ), '%Y-%m')) AS on1,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month2
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '2', '-', '01' ), '%Y-%m')) AS on2,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month3
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '3', '-', '01' ), '%Y-%m')) AS on3,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month4
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '4', '-', '01' ), '%Y-%m')) AS on12,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month5
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '5', '-', '01' ), '%Y-%m')) AS on4,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month6
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '6', '-', '01' ), '%Y-%m')) AS on5,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month7
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '7', '-', '01' ), '%Y-%m')) AS on6,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month8
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '8', '-', '01' ), '%Y-%m')) AS on7,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month9
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '9', '-', '01' ), '%Y-%m')) AS on8,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month10
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '10', '-', '01' ), '%Y-%m')) AS on9,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month11
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '11', '-', '01' ), '%Y-%m')) AS on10,
-        (SELECT
-        IFNULL(SUM( pm.price ) ,0) AS month12
-        FROM
-        payment_record pm
-        WHERE
-        DATE_FORMAT( concat( pm.`year`, '-', pm.`month`, '-', '01' ), '%Y-%m' ) =  DATE_FORMAT(concat( DATE_FORMAT( NOW(), '%Y' ), '-', '12', '-', '01' ), '%Y-%m')) AS on11
-    </select>
-
     <!-- 需缴费及总水电消耗 -->
     <select id="payableRate" resultType="java.util.LinkedHashMap">
-        SELECT on2.allPrice AS allPrice, on1.paid AS paid, on2.allPrice - on1.paid AS unpaid, on3.*, on4.* FROM (SELECT
+        SELECT on2.allPrice - on1.paid AS unpaid, on3.*, on4.* FROM (SELECT
         IFNULL(SUM( pm.price ) ,0) AS paid
         FROM
         payment_manage pm,
@@ -278,25 +192,10 @@
         SELECT
         DATE_SUB( curdate(), INTERVAL + 6 DAY )) spo
         LEFT JOIN epidemic_register er ON (
-        DATE_FORMAT( er.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' ) AND er.user_id = #{userId})
+        DATE_FORMAT( er.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' ))
         GROUP BY
         days
         ORDER BY
         days ASC
-    </select>
-
-    <!-- 投诉信息统计 -->
-    <select id="selectComplaintRate" resultType="java.util.LinkedHashMap">
-        SELECT
-        count(1) as count,
-        dm.type,
-        FROM
-        daily_manage dm
-        WHERE
-        1 = 1
-        <if test="dailyManage.userId != null and dailyManage.userId != ''">
-            AND dm.user_id = #{userId}
-        </if>
-        GROUP BY dm.type
     </select>
 </mapper>

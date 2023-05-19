@@ -20,10 +20,15 @@
         </a-col>
         <a-col :span="12">
           <a-form-item label='所属区域' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'address',
-            { rules: [{ required: true, message: '请输入所属区域!' }] }
-            ]"/>
+            <a-select v-decorator="[
+              'address',
+               { rules: [{ required: true, message: '请输入所属区域!' }] }
+              ]">
+              <a-select-option value="A区">A区</a-select-option>
+              <a-select-option value="B区">B区</a-select-option>
+              <a-select-option value="C区">C区</a-select-option>
+              <a-select-option value="D区">D区</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="12">
