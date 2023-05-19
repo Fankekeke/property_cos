@@ -219,9 +219,9 @@ export default {
         dataIndex: 'nature',
         customRender: (text, row, index) => {
           switch (text) {
-            case '1':
+            case 1:
               return <a-tag>住宅楼房</a-tag>
-            case '2':
+            case 2:
               return <a-tag>社区用处</a-tag>
             default:
               return '- -'

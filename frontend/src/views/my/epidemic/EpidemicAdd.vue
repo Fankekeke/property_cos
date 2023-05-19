@@ -38,7 +38,7 @@
             </a-select>
           </a-form-item>
         </a-col>
-       <a-col :span="24">
+        <a-col :span="24">
           <a-form-item label='图册' v-bind="formItemLayout">
             <a-upload
               name="avatar"

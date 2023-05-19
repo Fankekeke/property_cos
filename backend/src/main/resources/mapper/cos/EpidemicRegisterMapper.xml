@@ -5,15 +5,15 @@
     <!-- 分页获取防疫登记信息 -->
     <select id="epidemicByPage" resultType="java.util.LinkedHashMap">
         SELECT
-         er.id,
-         er.user_id AS userId,
-         er.temperature,
-         er.images,
-         er.code_status AS codeStatus,
-         er.through_city AS throughCity,
-         er.create_date AS createDate,
-         oi.`name`,
-         oi.phone
+        er.id,
+        er.user_id AS userId,
+        er.temperature,
+        er.images,
+        er.code_status AS codeStatus,
+        er.through_city AS throughCity,
+        er.create_date AS createDate,
+        oi.`name`,
+        oi.phone
         FROM
         epidemic_register er
         LEFT JOIN t_user tu ON ( tu.USER_ID = er.user_id )

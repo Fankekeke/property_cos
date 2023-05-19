@@ -29,7 +29,7 @@
               <a-col :span="4">
                 <head-info title="用电消耗" :content="electricity" :center="false" />
               </a-col> -->
-               <a-col :span="4">
+              <a-col :span="4">
                 <head-info title="应缴费用" :content="allPrice" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
@@ -345,17 +345,30 @@ export default {
           this.series1[0].data = epidemicRateData
           this.series1[0].name = '体温'
           this.chartOptions1.xaxis.categories = epidemicRateLabel
+
+          let complaintRateLabel = []
+          let complaintRateData = []
+          console.log(r.data.complaint)
+          if (r.data.complaint) {
+            r.data.complaint.forEach(item => {
+              complaintRateLabel.push(item.type === 1 ? '投诉' : '建议')
+              complaintRateData.push(item.count)
+            })
+            this.series4 = complaintRateData
+            this.chartOptions4.labels = complaintRateLabel
+          }
           setTimeout(() => {
             this.loading = false
           }, 500)
         } else {
           this.ownerNum = r.data.ownerNum
           let propertyItemYear = r.data.propertyItemYear[0]
+          let paidYear = r.data.paidYear[0]
           let dataArr = [propertyItemYear.month1, propertyItemYear.month2, propertyItemYear.month3, propertyItemYear.month4, propertyItemYear.month5, propertyItemYear.month6, propertyItemYear.month7, propertyItemYear.month8, propertyItemYear.month9, propertyItemYear.month10, propertyItemYear.month11, propertyItemYear.month12]
           let dataArr2 = [paidYear.month1, paidYear.month2, paidYear.month3, paidYear.month4, paidYear.month5, paidYear.month6, paidYear.month7, paidYear.month8, paidYear.month9, paidYear.month10, paidYear.month11, paidYear.month12]
           let seriesData = [
             {name: '预收金额', data: dataArr},
-            {name: '已收金额', data: dataArr2},
+            {name: '已收金额', data: dataArr2}
           ]
           this.series1 = seriesData
           this.propertyItemYear = r.data.propertyItemYear
@@ -367,16 +380,6 @@ export default {
             housesTypeRateLabel.push(item.nature)
             housesTypeRateData.push(item.num)
           })
-          let complaintRateLabel = []
-          let complaintRateData = []
-          if (r.data.complaint) {
-            r.data.complaint.forEach(item => {
-              complaintRateLabel.push(item.type)
-              complaintRateData.push(item.count)
-            })
-            this.series4 = complaintRateData
-            this.chartOptions4.labels = complaintRateLabel
-          }
 
           this.series3 = housesTypeRateData
           this.chartOptions3.labels = housesTypeRateLabel
@@ -463,105 +466,105 @@ export default {
 }
 </script>
 <style lang="less">
-  .home-page {
-    .head-info {
-      margin-bottom: .5rem;
-      .head-info-card {
-        padding: .5rem;
-        border-color: #f1f1f1;
-        .head-info-avatar {
-          display: inline-block;
-          float: left;
-          margin-right: 1rem;
-          img {
-            width: 5rem;
-            border-radius: 2px;
+.home-page {
+  .head-info {
+    margin-bottom: .5rem;
+    .head-info-card {
+      padding: .5rem;
+      border-color: #f1f1f1;
+      .head-info-avatar {
+        display: inline-block;
+        float: left;
+        margin-right: 1rem;
+        img {
+          width: 5rem;
+          border-radius: 2px;
+        }
+      }
+      .head-info-count {
+        display: inline-block;
+        float: left;
+        .head-info-welcome {
+          font-size: 1.05rem;
+          margin-bottom: .1rem;
+        }
+        .head-info-desc {
+          color: rgba(0, 0, 0, 0.45);
+          font-size: .8rem;
+          padding: .2rem 0;
+          p {
+            margin-bottom: 0;
           }
         }
-        .head-info-count {
-          display: inline-block;
-          float: left;
-          .head-info-welcome {
-            font-size: 1.05rem;
-            margin-bottom: .1rem;
-          }
-          .head-info-desc {
-            color: rgba(0, 0, 0, 0.45);
-            font-size: .8rem;
-            padding: .2rem 0;
-            p {
-              margin-bottom: 0;
-            }
-          }
-          .head-info-time {
-            color: rgba(0, 0, 0, 0.45);
-            font-size: .8rem;
-            padding: .2rem 0;
-          }
+        .head-info-time {
+          color: rgba(0, 0, 0, 0.45);
+          font-size: .8rem;
+          padding: .2rem 0;
         }
       }
     }
-    .count-info {
-      .visit-count-wrapper {
-        padding-left: 0 !important;
-        .visit-count {
-          padding: .5rem;
-          border-color: #f1f1f1;
-          .ant-card-body {
-            padding: .5rem 1rem !important;
-          }
+  }
+  .count-info {
+    .visit-count-wrapper {
+      padding-left: 0 !important;
+      .visit-count {
+        padding: .5rem;
+        border-color: #f1f1f1;
+        .ant-card-body {
+          padding: .5rem 1rem !important;
         }
       }
-      .project-wrapper {
-        padding-right: 0 !important;
-        .project-card {
-          border: none !important;
-          .ant-card-head {
-            border-left: 1px solid #f1f1f1 !important;
-            border-top: 1px solid #f1f1f1 !important;
-            border-right: 1px solid #f1f1f1 !important;
-          }
-          .ant-card-body {
-            padding: 0 !important;
-            table {
-              width: 100%;
-              td {
-                width: 50%;
-                border: 1px solid #f1f1f1;
-                padding: .6rem;
-                .project-avatar-wrapper {
-                  display:inline-block;
-                  float:left;
-                  margin-right:.7rem;
-                  .project-avatar {
-                    color: #42b983;
-                    background-color: #d6f8b8;
-                  }
+    }
+    .project-wrapper {
+      padding-right: 0 !important;
+      .project-card {
+        border: none !important;
+        .ant-card-head {
+          border-left: 1px solid #f1f1f1 !important;
+          border-top: 1px solid #f1f1f1 !important;
+          border-right: 1px solid #f1f1f1 !important;
+        }
+        .ant-card-body {
+          padding: 0 !important;
+          table {
+            width: 100%;
+            td {
+              width: 50%;
+              border: 1px solid #f1f1f1;
+              padding: .6rem;
+              .project-avatar-wrapper {
+                display:inline-block;
+                float:left;
+                margin-right:.7rem;
+                .project-avatar {
+                  color: #42b983;
+                  background-color: #d6f8b8;
                 }
               }
             }
           }
-          .project-detail {
-            display:inline-block;
-            float:left;
-            text-align:left;
-            width: 78%;
-            .project-name {
-              font-size:.9rem;
-              margin-top:-2px;
-              font-weight:600;
-            }
-            .project-desc {
-              color:rgba(0, 0, 0, 0.45);
-              p {
-                margin-bottom:0;
-                font-size:.6rem;
-                white-space:normal;
-              }
+        }
+        .project-detail {
+          display:inline-block;
+          float:left;
+          text-align:left;
+          width: 78%;
+          .project-name {
+            font-size:.9rem;
+            margin-top:-2px;
+            font-weight:600;
+          }
+          .project-desc {
+            color:rgba(0, 0, 0, 0.45);
+            p {
+              margin-bottom:0;
+              font-size:.6rem;
+              white-space:normal;
             }
           }
         }
       }
     }
   }
+}
 </style>

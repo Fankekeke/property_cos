@@ -52,4 +52,16 @@ public class PaymentRecord implements Serializable {
     @TableField(exist = false)
     private Integer type;
 
+    /**
+     * 年
+     */
+    @TableField(exist = false)
+    private Integer year;
+
+    /**
+     * 月
+     */
+    @TableField(exist = false)
+    private Integer month;
+
 }

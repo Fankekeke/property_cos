@@ -26,11 +26,11 @@
                 label="状态"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
-                 <a-select v-model="queryParams.codeStatus">
-                    <a-select-option value="0">正常</a-select-option>
-                    <a-select-option value="1">异常</a-select-option>
-                    <a-select-option value="2">感染</a-select-option>
-                  </a-select>
+                <a-select v-model="queryParams.codeStatus">
+                  <a-select-option value="0">正常</a-select-option>
+                  <a-select-option value="1">异常</a-select-option>
+                  <a-select-option value="2">感染</a-select-option>
+                </a-select>
               </a-form-item>
             </a-col>
           </div>
@@ -43,7 +43,7 @@
     </div>
     <div>
       <div class="operator">
-        <a-button type="primary" ghost @click="add">新增</a-button>
+<!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
         <a-button @click="batchDelete">删除</a-button>
       </div>
       <!-- 表格区域 -->
@@ -145,6 +145,18 @@ export default {
       }, {
         title: '途经城市',
         dataIndex: 'throughCity'
+      }, {
+        title: '照片',
+        dataIndex: 'image',
+        customRender: (text, record, index) => {
+          if (!record.image) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.image.split(',')[0] } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.image.split(',')[0] } />
+          </a-popover>
+        }
       }, {
         title: '健康码',
         dataIndex: 'codeStatus',

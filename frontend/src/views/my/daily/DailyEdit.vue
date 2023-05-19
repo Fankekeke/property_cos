@@ -39,12 +39,12 @@
               @preview="handlePreview"
               @change="picHandleChange"
             >
-             <div v-if="fileList.length < 8">
-               <a-icon type="plus" />
-               <div class="ant-upload-text">
-                 Upload
-               </div>
-             </div>
+              <div v-if="fileList.length < 8">
+                <a-icon type="plus" />
+                <div class="ant-upload-text">
+                  Upload
+                </div>
+              </div>
             </a-upload>
             <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
               <img alt="example" style="width: 100%" :src="previewImage" />

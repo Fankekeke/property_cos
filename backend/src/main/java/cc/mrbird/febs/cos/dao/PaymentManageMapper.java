@@ -23,7 +23,7 @@ public interface PaymentManageMapper extends BaseMapper<PaymentManage> {
     // 本年预收情况统计
     List<LinkedHashMap<String, Object>> propertyItemYear();
 
-    // 本年已收情况统计
+    // 已收情况统计
     List<LinkedHashMap<String, Object>> propertyItemYearPaid();
 
     // 需缴费及总水电消耗
