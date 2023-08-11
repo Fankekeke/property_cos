@@ -55,6 +55,16 @@ public class ParkInfo implements Serializable {
      */
     private String remark;
 
+    /**
+     * 大小
+     */
+    private String parkSize;
+
+    /**
+     * 状态（1.空闲、2.出售、3.出租、4.已预定、5.维修）
+     */
+    private String status;
+
     @TableField(exist = false)
     private String ownerName;
 

@@ -65,6 +65,11 @@ public class RepairInfo implements Serializable {
      */
     private String createDate;
 
+    /**
+     * 维修类型（1.上下水管道 2.落水管 3.水箱 4.天线 5.供电线路 6.通讯线路 7.照明 8.供气线路 9.消防设施）
+     */
+    private String repairType;
+
     @TableField(exist = false)
     private String name;
     @TableField(exist = false)

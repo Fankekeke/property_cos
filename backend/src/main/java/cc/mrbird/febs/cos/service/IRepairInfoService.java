@@ -19,4 +19,11 @@ public interface IRepairInfoService extends IService<RepairInfo> {
     // 查看维修详情
     LinkedHashMap<String, Object> repairInfoById(Integer repairId);
 
+    /**
+     * 维修分析
+     *
+     * @param housesId 房屋ID
+     */
+    void repairAnalyze(Integer housesId);
+
 }

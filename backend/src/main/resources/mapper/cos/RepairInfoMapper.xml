@@ -10,6 +10,7 @@
         ri.content,
         ri.images,
         ri.worker,
+        ri.repair_type,
         ri.repair_status AS repairStatus,
         ri.create_date AS createDate,
         oi.name,

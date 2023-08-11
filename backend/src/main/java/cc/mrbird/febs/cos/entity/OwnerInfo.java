@@ -54,5 +54,8 @@ public class OwnerInfo implements Serializable {
      */
     private String createDate;
 
-
+    /**
+     * 邮箱地址
+     */
+    private String email;
 }

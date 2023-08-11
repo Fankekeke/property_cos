@@ -47,6 +47,17 @@
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col :span="8"><b>维修类型：</b>
+          <span v-if="repairData.repairType == 1">上下水管道</span>
+          <span v-if="repairData.repairType == 2">落水管</span>
+          <span v-if="repairData.repairType == 3">水箱</span>
+          <span v-if="repairData.repairType == 4">天线</span>
+          <span v-if="repairData.repairType == 5">供电线路</span>
+          <span v-if="repairData.repairType == 6">通讯线路</span>
+          <span v-if="repairData.repairType == 7">照明</span>
+          <span v-if="repairData.repairType == 8">供气线路</span>
+          <span v-if="repairData.repairType == 9">消防设施</span>
+        </a-col>
         <a-col :span="8"><b>维修状态：</b>
           <span v-if="repairData.repairStatus == 0">未派修</span>
           <span v-if="repairData.repairStatus == 1">已派修</span>

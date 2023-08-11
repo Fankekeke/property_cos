@@ -20,6 +20,24 @@
             <a-input v-model="housesData.buyer" disabled/>
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label='维修类型' v-bind="formItemLayout">
+            <a-select allowClear v-decorator="[
+              'repairType',
+              { rules: [{ required: true, message: '请输入维修类型!' }] }
+              ]"/>
+              <a-select-option value="1">上下水管道</a-select-option>
+              <a-select-option value="2">落水管</a-select-option>
+              <a-select-option value="3">水箱</a-select-option>
+              <a-select-option value="4">天线</a-select-option>
+              <a-select-option value="5">供电线路</a-select-option>
+              <a-select-option value="6">通讯线路</a-select-option>
+              <a-select-option value="7">照明</a-select-option>
+              <a-select-option value="8">供气线路</a-select-option>
+              <a-select-option value="9">消防设施</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
         <a-col :span="24">
           <a-form-item label='维修内容' v-bind="formItemLayout">
             <a-textarea :auto-size="{ minRows: 3, maxRows: 5 }" v-decorator="[
