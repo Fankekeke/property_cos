@@ -52,7 +52,7 @@ public class DailyManage implements Serializable {
     /**
      * 状态 0.未处理 1.派出工作人员 2.已完成
      */
-    private Integer readStatus;
+    private String readStatus;
 
     /**
      * 工作人员ID

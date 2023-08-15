@@ -134,8 +134,8 @@ export default {
         title: '途经城市',
         dataIndex: 'throughCity'
       }, {
-        title: '照片',
-        dataIndex: 'image',
+        title: '健康码',
+        dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />
           return <a-popover>

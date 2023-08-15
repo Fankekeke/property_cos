@@ -68,15 +68,25 @@
               <apexchart v-if="!loading" type="area" height="300" :options="chartOptions1" :series="series1"></apexchart>
             </a-card>
           </a-col>
-          <a-col :span="24" v-if="user.roleId != 75">
+          <a-col :span="24">
             <a-row :gutter="8" class="count-info" style="margin-top: 8px;margin-left: 0px;margin-right: 0px">
               <a-col :span="24" class="visit-count-wrapper">
                 <a-row :gutter="8">
-                  <a-col :span="12">
+                  <a-col :span="12" v-if="user.roleId != 75">
                     <a-card class="visit-count">
                       <a-skeleton active v-if="loading" />
                       <apexchart v-if="!loading" type="donut" :options="chartOptions3" :series="series3" height="309"></apexchart>
                     </a-card>
+                  </a-col>
+                  <a-col :span="12" v-if="user.roleId != 74">
+                    <a-row :gutter="8">
+                      <a-col :span="12">
+                        <a-card class="visit-count">
+                          <a-skeleton active v-if="loading" />
+                          <apexchart v-if="!loading" type="donut" :options="chartOptions4" :series="series4" height="309"></apexchart>
+                        </a-card>
+                      </a-col>
+                    </a-row>
                   </a-col>
                   <a-col :span="12">
                     <a-card class="visit-count">
@@ -85,16 +95,6 @@
                     </a-card>
                   </a-col>
                 </a-row>
-              </a-col>
-            </a-row>
-          </a-col>
-          <a-col :span="24" v-else>
-            <a-row :gutter="8">
-              <a-col :span="12">
-                <a-card class="visit-count">
-                  <a-skeleton active v-if="loading" />
-                  <apexchart v-if="!loading" type="donut" :options="chartOptions4" :series="series4" height="309"></apexchart>
-                </a-card>
               </a-col>
             </a-row>
           </a-col>
@@ -437,27 +437,25 @@ export default {
           sevenUserVistCount.push(0)
         }
       }
-      if (this.user.roleId !== '75') {
-        this.$refs.count.updateSeries([
-          {
-            name: '您',
-            data: sevenUserVistCount
-          },
-          {
-            name: '总数',
-            data: sevenVisitCount
-          }
-        ], true)
-        this.$refs.count.updateOptions({
-          xaxis: {
-            categories: dateArr
-          },
-          title: {
-            text: '近七日系统访问记录',
-            align: 'left'
-          }
-        }, true, true)
-      }
+      this.$refs.count.updateSeries([
+        {
+          name: '您',
+          data: sevenUserVistCount
+        },
+        {
+          name: '总数',
+          data: sevenVisitCount
+        }
+      ], true)
+      this.$refs.count.updateOptions({
+        xaxis: {
+          categories: dateArr
+        },
+        title: {
+          text: '近七日系统访问记录',
+          align: 'left'
+        }
+      }, true, true)
     }).catch((r) => {
       console.error(r)
       this.$message.error('获取首页信息失败')

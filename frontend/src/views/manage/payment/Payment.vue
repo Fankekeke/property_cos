@@ -42,8 +42,6 @@
                 </a-select>
               </a-form-item>
             </a-col>
-          </div>
-          <a-row v-if="advanced" :gutter="15">
             <a-col :md="6" :sm="24" >
               <a-form-item
                 label="缴费年份"
@@ -84,14 +82,10 @@
                 </a-select>
               </a-form-item>
             </a-col>
-          </a-row>
+          </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
             <a-button style="margin-left: 8px" @click="reset">重置</a-button>
-            <a @click="toggleAdvanced" style="margin-left: 8px">
-            {{advanced ? '收起' : '展开'}}
-            <a-icon :type="advanced ? 'up' : 'down'" />
-          </a>
           </span>
         </a-row>
       </a-form>

@@ -29,6 +29,9 @@
         <if test="dailyManage.type != null and dailyManage.type != ''">
             AND dm.type = #{dailyManage.type}
         </if>
+        <if test="dailyManage.readStatus != null and dailyManage.readStatus != ''">
+            AND dm.read_status = #{dailyManage.readStatus}
+        </if>
         <if test="dailyManage.userId != null and dailyManage.userId != ''">
             AND dm.user_id = #{dailyManage.userId}
         </if>

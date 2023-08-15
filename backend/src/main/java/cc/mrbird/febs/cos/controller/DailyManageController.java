@@ -42,7 +42,7 @@ public class DailyManageController {
     @PostMapping
     public R save(DailyManage dailyManage) {
         dailyManage.setCreateDate(DateUtil.formatDateTime(new Date()));
-        dailyManage.setReadStatus(0);
+        dailyManage.setReadStatus("0");
         return R.ok(dailyManageService.save(dailyManage));
     }
 

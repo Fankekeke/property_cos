@@ -43,7 +43,7 @@
             AND pm.type = #{paymentManage.type}
         </if>
         <if test="paymentManage.address != null and paymentManage.address != ''">
-            AND hi.address = LIKE CONCAT('%',#{paymentManage.address},'%')
+            AND hi.address LIKE CONCAT('%',#{paymentManage.address},'%')
         </if>
         <if test="paymentManage.userId != null and paymentManage.userId != ''">
             AND oi.user_id = #{paymentManage.userId}

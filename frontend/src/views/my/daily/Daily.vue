@@ -24,6 +24,18 @@
                 </a-select>
               </a-form-item>
             </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="状 态"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 2}">
+                <a-select v-model="queryParams.readStatus" allowClear>
+                  <a-select-option value="0">未处理</a-select-option>
+                  <a-select-option value="1">派出人员</a-select-option>
+                  <a-select-option value="2">已完成</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
           </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
@@ -315,6 +327,9 @@ export default {
       }
       if (params.type === undefined) {
         delete params.type
+      }
+      if (params.readStatus === undefined) {
+        delete params.readStatus
       }
       params.userId = this.currentUser.userId
       this.$get('/cos/daily-manage/page', {

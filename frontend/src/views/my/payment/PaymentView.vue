@@ -45,32 +45,32 @@
         <a-col :span="8"><b>缴费类型：</b>
           {{ paymentData.propertyName }}
         </a-col>
-        <a-col :span="8"><b>本月消耗：</b>
-          <span v-if="paymentData.type == 1 || paymentData.type == 2">{{ paymentData.propertyName }} {{ paymentData.dosage }} {{ paymentData.propertyUnit }}</span>
-          <span v-else>- -</span>
-        </a-col>
+<!--        <a-col :span="8"><b>本月消耗：</b>-->
+<!--          <span v-if="paymentData.type == 1 || paymentData.type == 2">{{ paymentData.propertyName }} {{ paymentData.dosage }} {{ paymentData.propertyUnit }}</span>-->
+<!--          <span v-else>- -</span>-->
+<!--        </a-col>-->
         <a-col :span="8"><b>需缴费用：</b>
           {{ paymentData.price }} 元
         </a-col>
       </a-row>
       <br/>
       <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">电费梯度计算</span></a-col>
-        <a-col :span="24"><b>第一档电量：</b>
-          每户每月0~200度 电费不做调整
-        </a-col>
-        <br/>
-        <br/>
-        <a-col :span="24"><b>第二档电量：</b>
-          每户每月201~400度 电价每度加0.05
-        </a-col>
-        <br/>
-        <br/>
-        <a-col :span="24"><b>第三档电量：</b>
-          每户每月400度以上 电价每度加0.3
-        </a-col>
-      </a-row>
+<!--      <a-row style="padding-left: 24px;padding-right: 24px;">-->
+<!--        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">电费梯度计算</span></a-col>-->
+<!--        <a-col :span="24"><b>第一档电量：</b>-->
+<!--          每户每月0~200度 电费不做调整-->
+<!--        </a-col>-->
+<!--        <br/>-->
+<!--        <br/>-->
+<!--        <a-col :span="24"><b>第二档电量：</b>-->
+<!--          每户每月201~400度 电价每度加0.05-->
+<!--        </a-col>-->
+<!--        <br/>-->
+<!--        <br/>-->
+<!--        <a-col :span="24"><b>第三档电量：</b>-->
+<!--          每户每月400度以上 电价每度加0.3-->
+<!--        </a-col>-->
+<!--      </a-row>-->
       <br/>
     </div>
   </a-modal>
