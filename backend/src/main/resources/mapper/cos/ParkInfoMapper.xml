@@ -14,8 +14,8 @@
             pi.create_date,
             oi.`name` AS ownerName,
             oi.images,
-            oi.park_size,
-            oi.status,
+            pi.park_size,
+            pi.status,
             oi.phone
         FROM
             park_info pi

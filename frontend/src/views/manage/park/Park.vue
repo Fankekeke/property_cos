@@ -183,6 +183,35 @@ export default {
           }
         }
       }, {
+        title: '车位大小',
+        dataIndex: 'parkSize',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '车位状态',
+        dataIndex: 'status',
+        customRender: (text, row, index) => {
+          switch (text) {
+            case '1':
+              return <a-tag>空闲</a-tag>
+            case '2':
+              return <a-tag>出售</a-tag>
+            case '3':
+              return <a-tag>出租</a-tag>
+            case '4':
+              return <a-tag>已预定</a-tag>
+            case '5':
+              return <a-tag>维修</a-tag>
+            default:
+              return '- -'
+          }
+        }
+      }, {
         title: '备注',
         dataIndex: 'remark'
       }, {

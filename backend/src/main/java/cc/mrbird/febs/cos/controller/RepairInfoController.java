@@ -77,7 +77,8 @@ public class RepairInfoController {
     public R edit(RepairInfo repairInfo) {
         repairInfo.setRepairStatus(1);
         // 分析此房屋维修情况
-        repairInfoService.repairAnalyze(repairInfo.getHousesId());
+        RepairInfo repair = repairInfoService.getById(repairInfo.getId());
+        repairInfoService.repairAnalyze(repair.getHousesId());
         return R.ok(repairInfoService.updateById(repairInfo));
     }
 

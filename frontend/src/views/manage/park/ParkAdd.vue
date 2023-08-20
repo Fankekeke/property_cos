@@ -40,6 +40,28 @@
             </a-select>
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label='车位大小' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'parkSize',
+            { rules: [{ required: true, message: '请输入车位大小!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label='车位状态' v-bind="formItemLayout">
+            <a-select v-decorator="[
+              'status',
+               { rules: [{ required: true, message: '请输入车位状态!' }] }
+              ]">
+              <a-select-option value="1">空闲</a-select-option>
+              <a-select-option value="2">出售</a-select-option>
+              <a-select-option value="3">出租</a-select-option>
+              <a-select-option value="4">已预定</a-select-option>
+              <a-select-option value="5">维修</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
         <a-col :span="24">
           <a-form-item label='备注' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[

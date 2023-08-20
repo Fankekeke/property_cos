@@ -44,7 +44,7 @@ public class IMailServiceImpl implements IMailService {
         //创建SimpleMailMessage对象
         SimpleMailMessage message = new SimpleMailMessage();
         //邮件发送人
-        message.setFrom("EVA-2<" + from + ">");
+        message.setFrom("维修提示<" + from + ">");
         //邮件接收人
         message.setTo(to);
         //邮件主题
@@ -70,7 +70,7 @@ public class IMailServiceImpl implements IMailService {
         try {
             messageHelper = new MimeMessageHelper(message, true);
             //邮件发送人
-            messageHelper.setFrom("EVA-2<" + from + ">");
+            messageHelper.setFrom("维修提示<" + from + ">");
             //邮件接收人
             messageHelper.setTo(to);
             //邮件主题

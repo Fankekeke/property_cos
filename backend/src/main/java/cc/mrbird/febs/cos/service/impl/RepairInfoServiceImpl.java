@@ -68,7 +68,7 @@ public class RepairInfoServiceImpl extends ServiceImpl<RepairInfoMapper, RepairI
         if (CollectionUtil.isNotEmpty(repairMap)) {
             List<String> repairTypeList = new ArrayList<>();
             repairMap.forEach((key, value) -> {
-                if (value.size() > 3) {
+                if (value.size() > 0) {
                     repairTypeList.add(key);
                 }
             });

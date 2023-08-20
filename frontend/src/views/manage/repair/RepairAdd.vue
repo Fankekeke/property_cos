@@ -25,7 +25,7 @@
             <a-select allowClear v-decorator="[
               'repairType',
               { rules: [{ required: true, message: '请输入维修类型!' }] }
-              ]"/>
+              ]">
               <a-select-option value="1">上下水管道</a-select-option>
               <a-select-option value="2">落水管</a-select-option>
               <a-select-option value="3">水箱</a-select-option>
