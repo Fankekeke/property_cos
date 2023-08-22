@@ -2,6 +2,7 @@ package cc.mrbird.febs.cos.controller;
 
 
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.entity.HousesInfo;
 import cc.mrbird.febs.cos.entity.RepairInfo;
 import cc.mrbird.febs.cos.service.IRepairInfoService;
 import cn.hutool.core.date.DateUtil;
@@ -26,6 +27,7 @@ public class RepairInfoController {
 
     /**
      * 查看维修详情
+     *
      * @param repairId
      * @return
      */
@@ -35,7 +37,20 @@ public class RepairInfoController {
     }
 
     /**
+     * 分页查询房屋维修统计
+     *
+     * @param page       分页对象
+     * @param housesInfo 房屋
+     * @return 结果
+     */
+    @GetMapping("/repair/page")
+    public R selectHouseRepairPage(Page<HousesInfo> page, HousesInfo housesInfo) {
+        return R.ok();
+    }
+
+    /**
      * 修改维修状态
+     *
      * @param repairId
      * @return
      */
@@ -46,6 +61,7 @@ public class RepairInfoController {
 
     /**
      * 分页查询维修信息
+     *
      * @param page
      * @param repairInfo
      * @return
@@ -57,6 +73,7 @@ public class RepairInfoController {
 
     /**
      * 添加维修信息
+     *
      * @param repairInfo
      * @return
      */
@@ -70,6 +87,7 @@ public class RepairInfoController {
 
     /**
      * 修改维修信息
+     *
      * @param repairInfo
      * @return
      */
@@ -84,6 +102,7 @@ public class RepairInfoController {
 
     /**
      * 删除维修信息
+     *
      * @param ids
      * @return
      */

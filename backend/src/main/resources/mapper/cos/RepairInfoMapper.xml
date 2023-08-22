@@ -42,6 +42,11 @@
         ORDER BY ri.create_date
     </select>
 
+    <!-- 分页查询房屋维修统计 -->
+    <select id="selectHouseRepairPage" resultType="java.util.LinkedHashMap">
+
+    </select>
+
     <!-- 查看维修详情 -->
     <select id="repairInfoById" resultType="java.util.LinkedHashMap">
         SELECT

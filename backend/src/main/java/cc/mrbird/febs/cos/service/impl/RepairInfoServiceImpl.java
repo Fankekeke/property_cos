@@ -51,6 +51,18 @@ public class RepairInfoServiceImpl extends ServiceImpl<RepairInfoMapper, RepairI
     }
 
     /**
+     * 分页查询房屋维修统计
+     *
+     * @param page       分页对象
+     * @param housesInfo 房屋
+     * @return 结果
+     */
+    @Override
+    public IPage<LinkedHashMap<String, Object>> selectHouseRepairPage(Page<HousesInfo> page, HousesInfo housesInfo) {
+        return baseMapper.selectHouseRepairPage(page, housesInfo);
+    }
+
+    /**
      * 维修分析
      *
      * @param housesId 房屋ID
