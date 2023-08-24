@@ -44,7 +44,38 @@
 
     <!-- 分页查询房屋维修统计 -->
     <select id="selectHouseRepairPage" resultType="java.util.LinkedHashMap">
-
+        select
+        ri.id,
+        ri.repair_type,
+        count(ri.repair_type) as repairNum,
+        ri.code,
+        ri.content,
+        ri.worker,
+        ri.repair_type,
+        oi.name,
+        oi.phone,
+        hi.address,
+        hi.number,
+        hi.floor
+        from
+        repair_info ri
+        left join owner_info oi on
+        ( oi.user_id = tu.USER_ID )
+        left join houses_info hi on
+        ( hi.id = ri.houses_id )
+        where
+        1 = 1
+        <if test="repairInfo.name != null and repairInfo.name != ''">
+            AND oi.name LIKE CONCAT('%',#{repairInfo.name},'%')
+        </if>
+        <if test="repairInfo.houseAddress != null and repairInfo.houseAddress != ''">
+            AND hi.address LIKE CONCAT('%',#{repairInfo.houseAddress},'%')
+        </if>
+        group by
+        ri.houses_id,
+        ri.repair_type
+        order by
+        ri.create_date
     </select>
 
     <!-- 查看维修详情 -->

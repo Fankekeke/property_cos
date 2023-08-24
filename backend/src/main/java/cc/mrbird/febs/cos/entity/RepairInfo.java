@@ -74,6 +74,7 @@ public class RepairInfo implements Serializable {
     private String name;
     @TableField(exist = false)
     private String phone;
-
+    @TableField(exist = false)
+    private String houseAddress;
 
 }

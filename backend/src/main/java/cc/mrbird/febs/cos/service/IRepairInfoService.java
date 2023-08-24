@@ -24,10 +24,10 @@ public interface IRepairInfoService extends IService<RepairInfo> {
      * 分页查询房屋维修统计
      *
      * @param page       分页对象
-     * @param housesInfo 房屋
+     * @param repairInfo 房屋
      * @return 结果
      */
-    IPage<LinkedHashMap<String, Object>> selectHouseRepairPage(Page<HousesInfo> page, HousesInfo housesInfo);
+    IPage<LinkedHashMap<String, Object>> selectHouseRepairPage(Page<HousesInfo> page, RepairInfo repairInfo);
 
     /**
      * 维修分析

@@ -40,12 +40,12 @@ public class RepairInfoController {
      * 分页查询房屋维修统计
      *
      * @param page       分页对象
-     * @param housesInfo 房屋
+     * @param repairInfo 房屋
      * @return 结果
      */
     @GetMapping("/repair/page")
-    public R selectHouseRepairPage(Page<HousesInfo> page, HousesInfo housesInfo) {
-        return R.ok();
+    public R selectHouseRepairPage(Page<HousesInfo> page, RepairInfo repairInfo) {
+        return R.ok(repairInfoService.selectHouseRepairPage(page, repairInfo));
     }
 
     /**
