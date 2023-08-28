@@ -51,7 +51,6 @@
         ri.code,
         ri.content,
         ri.worker,
-        ri.repair_type,
         oi.name,
         oi.phone,
         hi.address,
@@ -59,12 +58,13 @@
         hi.floor
         from
         repair_info ri
-        left join owner_info oi on
-        ( oi.user_id = tu.USER_ID )
         left join houses_info hi on
         ( hi.id = ri.houses_id )
+        left join owner_info oi on
+        ( oi.id = hi.owner_id )
         where
         1 = 1
+        and ri.repair_type is not null
         <if test="repairInfo.name != null and repairInfo.name != ''">
             AND oi.name LIKE CONCAT('%',#{repairInfo.name},'%')
         </if>

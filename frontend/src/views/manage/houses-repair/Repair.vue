@@ -79,16 +79,13 @@
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import RepairAdd from './RepairAdd'
-import RepairEdit from './RepairEdit'
-import RepairView from './RepairView'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
   name: 'repair',
-  components: {RepairAdd, RepairEdit, RepairView, RangeDate},
+  components: {RangeDate},
   data () {
     return {
       advanced: false,
@@ -127,7 +124,7 @@ export default {
     }),
     columns () {
       return [ {
-        title: '求助人',
+        title: '业主',
         dataIndex: 'name'
       }, {
         title: '联系方式',
@@ -185,10 +182,6 @@ export default {
             return '- -'
           }
         }
-      }, {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: {customRender: 'operation'}
       }]
     }
   },
@@ -320,7 +313,7 @@ export default {
       if (params.repairStatus === undefined) {
         delete params.repairStatus
       }
-      this.$get('/cos/repair-info/page', {
+      this.$get('/cos/repair-info/repair/page', {
         ...params
       }).then((r) => {
         let data = r.data.data
