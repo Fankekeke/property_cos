@@ -86,7 +86,7 @@ Email: fan1ke2ke@gmail.com
 
 WeChat: `Storm_Berserker`
 
-`因为要恰饭资源非免费，伸手党勿扰，谢谢理解`
+`附带部署与讲解服务，因为要恰饭资源非免费，伸手党勿扰，谢谢理解`
 
 #### 其它资源
 
