@@ -60,6 +60,11 @@ public class HousesInfoServiceImpl extends ServiceImpl<HousesInfoMapper, HousesI
     }
 
     @Override
+    public List<LinkedHashMap<String, Object>> housesConsumptionCheck(Integer housesId, String date) {
+        return baseMapper.housesConsumptionCheck(housesId, date);
+    }
+
+    @Override
     public LinkedHashMap<String, Object> home(Integer type) {
         if (type == null) {
             LinkedHashMap<String, Object> result= new LinkedHashMap<>();
@@ -77,9 +82,9 @@ public class HousesInfoServiceImpl extends ServiceImpl<HousesInfoMapper, HousesI
             LinkedHashMap<String, Object> result= new LinkedHashMap<>();
             result.put("housesNum", this.count(Wrappers.<HousesInfo>lambdaQuery().eq(HousesInfo::getOwnerId, ownerInfo.getId())));
             LinkedHashMap<String, Object> payableRate = paymentManageMapper.payableRate(ownerInfo.getId());
-            result.put("unpaid", payableRate.get("unpaid").toString());
-            result.put("electricity", payableRate.get("electricity").toString());
-            result.put("water", payableRate.get("water").toString());
+            result.put("unpaid", payableRate.get("unpaid") != null ? payableRate.get("unpaid").toString() : 0);
+            result.put("electricity", payableRate.get("electricity") != null ? payableRate.get("electricity").toString() : 0);
+            result.put("water", payableRate.get("water") != null ? payableRate.get("water").toString() : 0);
             result.put("bulletinInfo", bulletinInfoService.list());
             result.put("epidemicRate", paymentManageMapper.epidemicRate());
             return result;

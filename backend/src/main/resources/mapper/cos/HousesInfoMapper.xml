@@ -107,6 +107,19 @@
         '%Y-%m')
     </select>
 
+    <!-- 查询房屋是否有缴费项 -->
+    <select id="housesConsumptionCheck" resultType="java.util.LinkedHashMap">
+        SELECT
+            ci.*
+        FROM
+            consumption_info ci
+        WHERE
+            ci.houses_id = #{ housesId }
+          AND DATE_FORMAT( concat( ci.`year`, '-', ci.`month`, '-', '01' ), '%Y-%m' ) = DATE_FORMAT(
+                #{ date },
+                '%Y-%m')
+    </select>
+
     <!-- 房屋类型占比 -->
     <select id="housesTypeRate" resultType="java.util.LinkedHashMap">
         SELECT
