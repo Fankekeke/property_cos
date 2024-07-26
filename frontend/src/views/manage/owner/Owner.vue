@@ -198,6 +198,9 @@ export default {
         title: '联系电话',
         dataIndex: 'phone'
       }, {
+        title: '邮箱地址',
+        dataIndex: 'email'
+      }, {
         title: '身份证号码',
         dataIndex: 'idNumber'
       }, {

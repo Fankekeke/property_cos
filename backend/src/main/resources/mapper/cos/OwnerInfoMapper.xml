@@ -8,6 +8,7 @@
         oi.id,
         oi.name,
         oi.phone,
+        oi.email,
         oi.images,
         oi.id_number AS idNumber,
         oi.create_date AS createDate,
