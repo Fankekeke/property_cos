@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.RentInfoMapper">
+
+    <!-- 分页获取出租信息 -->
+    <select id="selectRentPage" resultType="java.util.LinkedHashMap">
+        select
+        ri.id,
+        ri.house_id,
+        ri.owner_id,
+        ri.content,
+        ri.images,
+        ri.contact,
+        ri.phone,
+        ri.`type`,
+        ri.rent_price,
+        ri.has_television,
+        ri.has_air_conditioner,
+        ri.has_wardrobe,
+        ri.has_bed,
+        ri.has_bathroom,
+        ri.has_door_lock,
+        ri.has_balcony,
+        ri.has_heating,
+        ri.has_refrigerator,
+        ri.has_washing_machine,
+        ri.has_water_heater,
+        ri.has_broadband,
+        ri.has_sofa,
+        ri.has_range_hood,
+        ri.has_gas_stoves,
+        ri.has_cook,
+        ri.title,
+        ri.create_date,
+        ri.del_flag,
+        oi.name as ownerName,
+        oi.phone as ownerPhone,
+        hi.address,
+        hi.number,
+        hi.floor,
+        hi.usage_area,
+        hi.surface_area,
+        hi.rooms
+        from
+        rent_info ri
+        left join owner_info oi on
+        (oi.id = ri.owner_id)
+        left join houses_info hi on
+        (hi.id = ri.house_id)
+        where
+        1 = 1
+        <if test="rentInfo.address != null and rentInfo.address != ''">
+            AND hi.address LIKE CONCAT('%',#{rentInfo.address},'%')
+        </if>
+        <if test="rentInfo.title != null and rentInfo.title != ''">
+            AND ri.title LIKE CONCAT('%',#{rentInfo.title},'%')
+        </if>
+        <if test="rentInfo.ownerId != null">
+            AND ri.owner_id = #{rentInfo.ownerId}
+        </if>
+        order by
+        ri.create_date desc
+    </select>
+
+    <!-- 获取所有租房信息 -->
+    <select id="selectRentList" resultType="java.util.LinkedHashMap">
+        select
+        ri.id,
+        ri.house_id,
+        ri.owner_id,
+        ri.content,
+        ri.images,
+        ri.contact,
+        ri.phone,
+        ri.`type`,
+        ri.rent_price,
+        ri.has_television,
+        ri.has_air_conditioner,
+        ri.has_wardrobe,
+        ri.has_bed,
+        ri.has_bathroom,
+        ri.has_door_lock,
+        ri.has_balcony,
+        ri.has_heating,
+        ri.has_refrigerator,
+        ri.has_washing_machine,
+        ri.has_water_heater,
+        ri.has_broadband,
+        ri.has_sofa,
+        ri.has_range_hood,
+        ri.has_gas_stoves,
+        ri.has_cook,
+        ri.title,
+        ri.create_date,
+        ri.del_flag,
+        oi.name as ownerName,
+        oi.phone as ownerPhone,
+        hi.address,
+        hi.number,
+        hi.floor,
+        hi.usage_area,
+        hi.surface_area,
+        hi.rooms
+        from
+        rent_info ri
+        left join owner_info oi on
+        (oi.id = ri.owner_id)
+        left join houses_info hi on
+        (hi.id = ri.house_id)
+        where
+        1 = 1
+        AND ri.del_flag = 1
+        order by
+        ri.create_date desc
+    </select>
+</mapper>

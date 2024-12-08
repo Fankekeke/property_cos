@@ -27,6 +27,14 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label='邮箱地址' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'email',
+            { rules: [{ required: true, message: '请输入邮箱地址!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label='身份证号' v-bind="formItemLayout">
             <a-input v-decorator="[
             'idNumber',

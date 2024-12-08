@@ -56,7 +56,12 @@
     <a-row :gutter="8" class="count-info">
       <a-col :span="16" class="visit-count-wrapper">
         <a-row :gutter="8">
-          <a-col :span="24">
+          <a-col :span="24" v-show="user.roleId == 75">
+            <a-card hoverable>
+              <weather></weather>
+            </a-card>
+          </a-col>
+          <a-col :span="24" v-show="user.roleId != 75">
             <a-card class="visit-count">
               <a-skeleton active v-if="loading" />
               <apexchart v-if="!loading" type="area" height="300" :options="chartOptions1" :series="series1"></apexchart>
@@ -102,19 +107,25 @@
             </a-list>
           </div>
         </a-card>
+        <a-carousel effect="fade" style="margin-top: 35px">
+          <div style="width: 100%;height: 300px"><img :src="'http://127.0.0.1:9527/imagesWeb/1.jpg'" style="width: 100%;height: 100%;object-fit:cover;" /></div>
+          <div style="width: 100%;height: 300px"><img :src="'http://127.0.0.1:9527/imagesWeb/2.jpg'" style="width: 100%;height: 100%;object-fit:cover;" /></div>
+          <div style="width: 100%;height: 300px"><img :src="'http://127.0.0.1:9527/imagesWeb/3.jpg'" style="width: 100%;height: 100%;object-fit:cover;" /></div>
+        </a-carousel>
       </a-col>
     </a-row>
   </div>
 </template>
 <script>
 import HeadInfo from '@/views/common/HeadInfo'
+import Weather from '@/views/web/Weather'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
   name: 'HomePage',
-  components: {HeadInfo},
+  components: {HeadInfo, Weather},
   data () {
     return {
       loading: false,
