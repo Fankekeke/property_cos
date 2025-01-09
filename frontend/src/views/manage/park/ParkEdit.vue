@@ -121,7 +121,7 @@ export default {
     },
     setFormValues ({...houses}) {
       this.rowId = houses.id
-      let fields = ['address', 'name', 'remark', 'ownerId']
+      let fields = ['address', 'name', 'remark', 'ownerId', 'status']
       let obj = {}
       Object.keys(houses).forEach((key) => {
         if (fields.indexOf(key) !== -1) {

@@ -8,16 +8,16 @@
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="内 容"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.content"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="通知类型"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.type" allowClear>
                   <a-select-option value="1">投诉</a-select-option>
                   <a-select-option value="2">建议</a-select-option>

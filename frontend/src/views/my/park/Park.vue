@@ -8,16 +8,16 @@
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="停车编号"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="车位号"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>

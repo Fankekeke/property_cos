@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.VisitRecordMapper">
+
+    <!-- 分页获取来访记录信息 -->
+    <select id="queryVisitRecordPage" resultType="java.util.LinkedHashMap">
+        select vr.id,
+        vr.name,
+        vr.phone,
+        vr.purpose_visit,
+        vr.visit_time,
+        vr.status,
+        vr.create_date,
+        vr.user_id,
+        oi.images
+        from visit_record vr
+        left join owner_info oi on
+        (oi.id = vr.user_id)
+        where 1 = 1
+        <if test="visitRecord.name != null and visitRecord.name != ''">
+            AND vr.name LIKE CONCAT('%',#{visitRecord.name},'%')
+        </if>
+        <if test="visitRecord.phone != null and visitRecord.phone != ''">
+            AND vr.phone LIKE CONCAT('%',#{visitRecord.phone},'%')
+        </if>
+        <if test="visitRecord.userId != null and visitRecord.userId != ''">
+            AND vr.user_id = #{visitRecord.userId}
+        </if>
+        order by vr.create_date desc
+    </select>
+</mapper>

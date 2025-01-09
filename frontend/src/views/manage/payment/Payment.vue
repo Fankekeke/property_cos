@@ -8,24 +8,24 @@
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="业主姓名"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="房屋地址"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.address"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="缴费类型"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.type" allowClear>
                   <a-select-option v-for="(item, index) in propertyList" :key="index" :value="item.id">{{ item.name }}</a-select-option>
                 </a-select>
@@ -34,8 +34,8 @@
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="缴费状态"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.payStatus" allowClear>
                   <a-select-option value="1">未缴费</a-select-option>
                   <a-select-option value="2">已缴费</a-select-option>
@@ -47,8 +47,8 @@
             <a-col :md="6" :sm="24" >
               <a-form-item
                 label="缴费年份"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.year" allowClear>
                   <a-select-option value="2022">2022</a-select-option>
                   <a-select-option value="2023">2023</a-select-option>
@@ -66,8 +66,8 @@
             <a-col :md="6" :sm="24" >
               <a-form-item
                 label="缴费月份"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.month" allowClear>
                   <a-select-option value="1">1</a-select-option>
                   <a-select-option value="2">2</a-select-option>
