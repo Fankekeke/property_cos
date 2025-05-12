@@ -5,17 +5,21 @@
     <!-- 分页获取充电桩信息 -->
     <select id="queryChargeStationPage" resultType="java.util.LinkedHashMap">
         select
-        id,
-        code,
-        name,
-        address,
-        create_date,
-        remark,
-        status,
-        unit_price,
-        `type`
+        cs.id,
+        cs.code,
+        cs.name,
+        cs.address,
+        cs.create_date,
+        cs.remark,
+        cs.status,
+        cs.owner_id,
+        cs.unit_price,
+        cs.`type`,
+        oi.`name` AS ownerName,
+        oi.phone
         from
-        charge_station
+        charge_station cs
+        LEFT JOIN owner_info oi ON ( oi.id = cs.owner_id )
         where 1 = 1
         <if test="chargeStation.name != null and chargeStation.name != ''">
             AND name LIKE CONCAT('%',#{chargeStation.name},'%')
@@ -25,6 +29,9 @@
         </if>
         <if test="chargeStation.address != null and chargeStation.address != ''">
             AND address LIKE CONCAT('%',#{chargeStation.address},'%')
+        </if>
+        <if test="chargeStation.ownerId != null and chargeStation.ownerId != ''">
+            AND oi.user_id = #{chargeStation.ownerId}
         </if>
         order by create_date desc
     </select>

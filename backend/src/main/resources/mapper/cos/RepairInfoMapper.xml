@@ -39,6 +39,9 @@
         <if test="repairInfo.repairStatus != null and repairInfo.repairStatus != ''">
             AND ri.repair_status = #{repairInfo.repairStatus}
         </if>
+        <if test="repairInfo.ownerId != null and repairInfo.ownerId != ''">
+            AND oi.user_id = #{repairInfo.ownerId}
+        </if>
         ORDER BY ri.create_date
     </select>
 

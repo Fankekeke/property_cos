@@ -51,6 +51,15 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item label='业主' v-bind="formItemLayout">
+            <a-select v-decorator="[
+              'ownerId',
+              ]">
+              <a-select-option v-for="(item, index) in ownerList" :value="item.id" :key="index">{{ item.name }}</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label='状态' v-bind="formItemLayout">
             <a-select v-decorator="[
               'status',
@@ -123,7 +132,7 @@ export default {
     },
     setFormValues ({...houses}) {
       this.rowId = houses.id
-      let fields = ['address', 'name', 'remark', 'unitPrice', 'type', 'status']
+      let fields = ['address', 'name', 'remark', 'unitPrice', 'type', 'status', 'ownerId']
       let obj = {}
       Object.keys(houses).forEach((key) => {
         if (fields.indexOf(key) !== -1) {

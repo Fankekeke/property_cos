@@ -1,71 +1,51 @@
 <template>
-  <a-modal v-model="show" title="修改充电桩" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="修改来访记录" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
       </a-button>
-      <a-button key="submit" type="primary" :loading="loading" @click="handleSubmit">
-        修改
+      <a-button key="submit" type="primary" :loading="loading" @click="handleSubmit(1)">
+        通过
+      </a-button>
+      <a-button key="submit1" type="danger" :loading="loading" @click="handleSubmit(2)">
+        驳回
       </a-button>
     </template>
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='充电桩名称' v-bind="formItemLayout">
-            <a-input v-decorator="[
+          <a-form-item label='来访人员姓名' v-bind="formItemLayout">
+            <a-input disabled v-decorator="[
             'name',
-            { rules: [{ required: true, message: '请输入充电桩名称!' }] }
+            { rules: [{ required: true, message: '请输入来访记录名称!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='所属区域' v-bind="formItemLayout">
-            <a-select v-decorator="[
-              'address',
-               { rules: [{ required: true, message: '请输入所属区域!' }] }
-              ]">
-              <a-select-option value="A区">A区</a-select-option>
-              <a-select-option value="B区">B区</a-select-option>
-              <a-select-option value="C区">C区</a-select-option>
-              <a-select-option value="D区">D区</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label='类型' v-bind="formItemLayout">
-            <a-select v-decorator="[
-              'type',
-               { rules: [{ required: true, message: '请输入类型!' }] }
-              ]">
-              <a-select-option value="1">快充</a-select-option>
-              <a-select-option value="2">慢充</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label='单价' v-bind="formItemLayout">
-            <a-input-number style="width: 100%" :min="1" v-decorator="[
-            'unitPrice',
-            { rules: [{ required: true, message: '请输入单价!' }] }
+          <a-form-item label='联系方式' v-bind="formItemLayout">
+            <a-input disabled v-decorator="[
+            'phone',
+            { rules: [{ required: true, message: '请输入联系方式!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='状态' v-bind="formItemLayout">
-            <a-select v-decorator="[
-              'status',
-               { rules: [{ required: true, message: '请输入车位状态!' }] }
-              ]">
-              <a-select-option value="1">空闲</a-select-option>
-              <a-select-option value="2">出售</a-select-option>
-              <a-select-option value="3">出租</a-select-option>
-              <a-select-option value="4">已预定</a-select-option>
-              <a-select-option value="5">维修</a-select-option>
-            </a-select>
+          <a-form-item label='访问日期' v-bind="formItemLayout">
+            <a-input disabled v-decorator="[
+            'visitTime',
+            { rules: [{ required: true, message: '请输入访问日期!' }] }
+            ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='备注' v-bind="formItemLayout">
+          <a-form-item label='访问目的' v-bind="formItemLayout">
+            <a-textarea disabled :rows="6" v-decorator="[
+            'purposeVisit'
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label='来访备注' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'remark'
             ]"/>
@@ -78,6 +58,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import moment from 'moment'
 const formItemLayout = {
   labelCol: { span: 24 },
   wrapperCol: { span: 24 }
@@ -123,12 +104,15 @@ export default {
     },
     setFormValues ({...houses}) {
       this.rowId = houses.id
-      let fields = ['address', 'name', 'remark', 'unitPrice', 'type', 'status']
+      let fields = ['visitTime', 'name', 'phone', 'purposeVisit']
       let obj = {}
       Object.keys(houses).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
           obj[key] = houses[key]
+        }
+        if (key === 'visitTime' && houses[key] != null) {
+          houses[key] = moment(houses[key])
         }
       })
       this.form.setFieldsValue(obj)
@@ -141,12 +125,14 @@ export default {
       this.reset()
       this.$emit('close')
     },
-    handleSubmit () {
+    handleSubmit (status) {
       this.form.validateFields((err, values) => {
         values.id = this.rowId
         if (!err) {
           this.loading = true
-          this.$put('/cos/charge-station', {
+          values.visitTime = moment(values.visitTime).format('YYYY-MM-DD')
+          values.status = status
+          this.$put('/cos/visit-record', {
             ...values
           }).then((r) => {
             this.reset()

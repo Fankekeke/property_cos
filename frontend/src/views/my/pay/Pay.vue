@@ -21,9 +21,15 @@ export default {
     })
   },
   mounted () {
-    if (getUrlKey('out_trade_no') !== null) {
-      this.$post('/cos/payment-record', { userId: this.currentUser.userId, paymentId: getUrlKey('out_trade_no'), paymentType: 1 }).then((r) => {
-      })
+    let paymentId = getUrlKey('out_trade_no')
+    if (paymentId !== null) {
+      if (paymentId.includes('OR-')) {
+        this.$post('/cos/payment-record', { userId: this.currentUser.userId, orderCode: getUrlKey('out_trade_no'), paymentType: 1 }).then((r) => {
+        })
+      } else {
+        this.$post('/cos/payment-record', { userId: this.currentUser.userId, paymentId: getUrlKey('out_trade_no'), paymentType: 1 }).then((r) => {
+        })
+      }
     }
   }
 }

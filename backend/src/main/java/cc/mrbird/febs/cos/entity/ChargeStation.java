@@ -65,5 +65,10 @@ public class ChargeStation implements Serializable {
      */
     private String type;
 
+    /**
+     *
+     */
+    private Integer ownerId;
+
 
 }

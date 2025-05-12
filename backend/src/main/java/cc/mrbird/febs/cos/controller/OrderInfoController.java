@@ -3,6 +3,7 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.CommodityInfo;
+import cc.mrbird.febs.cos.entity.LogisticsInfo;
 import cc.mrbird.febs.cos.entity.OrderInfo;
 import cc.mrbird.febs.cos.entity.OwnerInfo;
 import cc.mrbird.febs.cos.service.ICommodityInfoService;
@@ -106,7 +107,7 @@ public class OrderInfoController {
         }
         // 更新商品状态
         CommodityInfo commodity = commodityInfoService.getById(orderInfo.getCommodityId());
-        commodity.setStatus(2);
+        commodity.setStatus("2");
         orderInfo.setSellUserId(commodity.getUserId());
         orderInfo.setTotalPrice(commodity.getPrice());
         orderInfo.setTotalAfterPrice(commodity.getPrice());
@@ -115,6 +116,23 @@ public class OrderInfoController {
         orderInfo.setCode("OR-" + System.currentTimeMillis());
         orderInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(orderInfoService.save(orderInfo));
+    }
+
+    /**
+     * 根据订单查询物流
+     *
+     * @param orderId 订单ID
+     * @return 结果
+     */
+    @GetMapping("/logistics/{orderId}")
+    public R selectLogistics(@PathVariable("orderId") Integer orderId) {
+        OrderInfo orderInfo = orderInfoService.getById(orderId);
+        if (StrUtil.isNotEmpty(orderInfo.getLogistics())) {
+            List<LogisticsInfo> logisticsList = JSONUtil.toList(orderInfo.getLogistics(), LogisticsInfo.class);
+            return R.ok(logisticsList);
+        } else {
+            return R.ok(Collections.emptyList());
+        }
     }
 
     /**

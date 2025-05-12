@@ -103,7 +103,7 @@ public class CommodityInfo implements Serializable {
     /**
      * 商品状态（0.上架 1.下架 2.售出）
      */
-    private Integer status;
+    private String status;
 
     /**
      * 商品图片

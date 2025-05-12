@@ -65,6 +65,7 @@ public class VisitRecordController {
     @PostMapping
     public R save(VisitRecord visitRecord) {
         visitRecord.setCreateDate(DateUtil.formatDateTime(new Date()));
+        visitRecord.setStatus("0");
         return R.ok(visitRecordService.save(visitRecord));
     }
 

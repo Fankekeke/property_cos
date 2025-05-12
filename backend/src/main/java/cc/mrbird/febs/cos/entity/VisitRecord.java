@@ -58,5 +58,5 @@ public class VisitRecord implements Serializable {
      */
     private Integer userId;
 
-
+    private String remark;
 }

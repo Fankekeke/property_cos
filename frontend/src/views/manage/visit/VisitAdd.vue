@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="新增充电桩" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="新增来访记录" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -11,61 +11,38 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='充电桩名称' v-bind="formItemLayout">
+          <a-form-item label='来访人员姓名' v-bind="formItemLayout">
             <a-input v-decorator="[
             'name',
-            { rules: [{ required: true, message: '请输入充电桩名称!' }] }
+            { rules: [{ required: true, message: '请输入来访记录名称!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='所属区域' v-bind="formItemLayout">
-            <a-select v-decorator="[
-              'address',
-               { rules: [{ required: true, message: '请输入所属区域!' }] }
-              ]">
-              <a-select-option value="A区">A区</a-select-option>
-              <a-select-option value="B区">B区</a-select-option>
-              <a-select-option value="C区">C区</a-select-option>
-              <a-select-option value="D区">D区</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label='类型' v-bind="formItemLayout">
-            <a-select v-decorator="[
-              'type',
-               { rules: [{ required: true, message: '请输入类型!' }] }
-              ]">
-              <a-select-option value="1">快充</a-select-option>
-              <a-select-option value="2">慢充</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label='单价' v-bind="formItemLayout">
-            <a-input-number style="width: 100%" :min="1" v-decorator="[
-            'unitPrice',
-            { rules: [{ required: true, message: '请输入单价!' }] }
+          <a-form-item label='联系方式' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'phone',
+            { rules: [{ required: true, message: '请输入联系方式!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='状态' v-bind="formItemLayout">
-            <a-select v-decorator="[
-              'status',
-               { rules: [{ required: true, message: '请输入车位状态!' }] }
-              ]">
-              <a-select-option value="1">空闲</a-select-option>
-              <a-select-option value="2">出售</a-select-option>
-              <a-select-option value="3">出租</a-select-option>
-              <a-select-option value="4">已预定</a-select-option>
-              <a-select-option value="5">维修</a-select-option>
-            </a-select>
+          <a-form-item label='访问日期' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'visitTime',
+            { rules: [{ required: true, message: '请输入访问日期!' }] }
+            ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='备注' v-bind="formItemLayout">
+          <a-form-item label='访问目的' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'purposeVisit'
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label='来访备注' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'remark'
             ]"/>
@@ -78,6 +55,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import moment from 'moment'
 const formItemLayout = {
   labelCol: { span: 24 },
   wrapperCol: { span: 24 }
@@ -133,7 +111,8 @@ export default {
         if (!err) {
           values.publisher = this.currentUser.userId
           this.loading = true
-          this.$post('/cos/charge-station', {
+          values.visitTime = moment(values.visitTime).format('YYYY-MM-DD')
+          this.$post('/cos/visit-record', {
             ...values
           }).then((r) => {
             this.reset()

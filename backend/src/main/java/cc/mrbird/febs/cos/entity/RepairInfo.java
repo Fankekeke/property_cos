@@ -53,7 +53,7 @@ public class RepairInfo implements Serializable {
     /**
      * 维修状态 0.未派修 1.已派修 2.已完成
      */
-    private Integer repairStatus;
+    private String repairStatus;
 
     /**
      * 工作人员
@@ -76,5 +76,8 @@ public class RepairInfo implements Serializable {
     private String phone;
     @TableField(exist = false)
     private String houseAddress;
+
+    @TableField(exist = false)
+    private Integer ownerId;
 
 }

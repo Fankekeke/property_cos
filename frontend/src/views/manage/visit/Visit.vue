@@ -58,14 +58,14 @@
           <template>
             <a-tooltip>
               <template slot="title">
-                {{ record.content }}
+                {{ record.purposeVisit }}
               </template>
-              {{ record.content.slice(0, 30) }} ...
+              {{ record.purposeVisit.slice(0, 30) }} ...
             </a-tooltip>
           </template>
         </template>
         <template slot="operation" slot-scope="text, record">
-          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改"></a-icon>
+          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="审 核" v-if="record.status == 0"></a-icon>
         </template>
       </a-table>
     </div>
@@ -138,8 +138,9 @@ export default {
     }),
     columns () {
       return [{
-        title: '来访人员姓名',
-        dataIndex: 'name'
+        title: '来访人员',
+        dataIndex: 'name',
+        ellipsis: true
       }, {
         title: '联系方式',
         dataIndex: 'phone',
@@ -149,17 +150,15 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '访问目的',
         dataIndex: 'purposeVisit',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
+        scopedSlots: {customRender: 'contentShow'}
+      }, {
+        title: '备注',
+        dataIndex: 'remark'
       }, {
         title: '访问时间',
         dataIndex: 'visitTime',
@@ -169,7 +168,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '状态',
         dataIndex: 'status',
@@ -227,7 +227,7 @@ export default {
     },
     handleHousesAddSuccess () {
       this.housesAdd.visiable = false
-      this.$message.success('新增充电桩成功')
+      this.$message.success('新增来访记录成功')
       this.search()
     },
     edit (record) {
@@ -239,7 +239,7 @@ export default {
     },
     handleHousesEditSuccess () {
       this.housesEdit.visiable = false
-      this.$message.success('修改充电桩成功')
+      this.$message.success('修改来访记录成功')
       this.search()
     },
     handleDeptChange (value) {

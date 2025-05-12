@@ -52,4 +52,10 @@ public class PaymentRecord implements Serializable {
     @TableField(exist = false)
     private Integer type;
 
+    /**
+     * 账单ID
+     */
+    @TableField(exist = false)
+    private String orderCode;
+
 }

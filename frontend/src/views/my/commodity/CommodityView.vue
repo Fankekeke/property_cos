@@ -47,9 +47,6 @@
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col :span="8"><b>点击次数：</b>
-          {{ commodityData.quality }}
-        </a-col>
-        <a-col :span="8"><b>品牌：</b>
           {{ commodityData.clickNum }}
         </a-col>
         <a-col :span="8"><b>最近点击时间：</b>

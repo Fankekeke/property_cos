@@ -154,6 +154,26 @@ export default {
           }
         }
       }, {
+        title: '业主姓名',
+        dataIndex: 'ownerName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '联系方式',
+        dataIndex: 'phone',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
         title: '类型',
         dataIndex: 'type',
         customRender: (text, row, index) => {

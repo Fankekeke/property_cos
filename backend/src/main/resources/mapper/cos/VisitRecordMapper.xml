@@ -12,6 +12,7 @@
         vr.status,
         vr.create_date,
         vr.user_id,
+        vr.remark,
         oi.images
         from visit_record vr
         left join owner_info oi on

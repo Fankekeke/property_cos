@@ -80,7 +80,7 @@ public class RepairInfoController {
     @PostMapping
     public R save(RepairInfo repairInfo) {
         repairInfo.setCode("ORD-" + System.currentTimeMillis());
-        repairInfo.setRepairStatus(0);
+        repairInfo.setRepairStatus("0");
         repairInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(repairInfoService.save(repairInfo));
     }
@@ -93,7 +93,7 @@ public class RepairInfoController {
      */
     @PutMapping
     public R edit(RepairInfo repairInfo) {
-        repairInfo.setRepairStatus(1);
+        repairInfo.setRepairStatus("1");
         // 分析此房屋维修情况
         RepairInfo repair = repairInfoService.getById(repairInfo.getId());
         repairInfoService.repairAnalyze(repair.getHousesId());

@@ -1,5 +1,6 @@
 package cc.mrbird.febs.cos.dao;
 
+import cc.mrbird.febs.cos.entity.OrderInfo;
 import cc.mrbird.febs.cos.entity.PaymentManage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -27,4 +28,25 @@ public interface PaymentManageMapper extends BaseMapper<PaymentManage> {
     LinkedHashMap<String, Object> payableRate(@Param("userId") Integer userId);
 
     List<LinkedHashMap<String, Object>> epidemicRate();
+
+    /**
+     * 近十天缴费统计
+     *
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectOrderNumWithinDays();
+
+    /**
+     * 近十天报修统计
+     *
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectOrderPriceWithinDays();
+
+    /**
+     * 订单销售商品类别统计
+     *
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectOrderDishesType(@Param("year") Integer year, @Param("month") Integer month);
 }

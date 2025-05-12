@@ -54,6 +54,9 @@
       </a-card>
     </a-row>
     <a-row :gutter="8" class="count-info">
+      <a-col :span="24" class="visit-count-wrapper">
+        <home v-if="user.roleId == 74"/>
+      </a-col>
       <a-col :span="16" class="visit-count-wrapper">
         <a-row :gutter="8">
           <a-col :span="24" v-show="user.roleId == 75">
@@ -121,11 +124,12 @@ import HeadInfo from '@/views/common/HeadInfo'
 import Weather from '@/views/web/Weather'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import Home from './manage/component/home/Home.vue'
 moment.locale('zh-cn')
 
 export default {
   name: 'HomePage',
-  components: {HeadInfo, Weather},
+  components: {Home, HeadInfo, Weather},
   data () {
     return {
       loading: false,

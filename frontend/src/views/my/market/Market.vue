@@ -39,14 +39,14 @@
             </a-breadcrumb>
           </div>
           <p style="font-size: 25px;color: black;font-weight: 500;line-height: 150%;margin: 25px 50px;margin-top: 50px">
-            {{ postDetail.title }}
+            {{ postDetail.title }}（{{ postDetail.status != 0 ? '已售出' : '未售出' }}）
             <a-popconfirm
               title="确认购买?"
               ok-text="Yes"
               cancel-text="No"
               @confirm="confirm"
             >
-              <a href="#" v-if="postDetail.oldUserId != currentUser.userId">
+              <a href="#" v-if="postDetail.oldUserId != currentUser.userId && postDetail.status == 0">
                 <a-icon type="wallet" theme="twoTone" style="font-size: 25px;margin-left: 30px"/>
               </a>
             </a-popconfirm>
