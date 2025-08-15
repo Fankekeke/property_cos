@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.ReplyInfoMapper">
+
+    <!-- 分页获取消息回复信息 -->
+    <select id="selectReplyPage" resultType="java.util.LinkedHashMap">
+        SELECT
+        ri.id,
+        ri.user_id AS userId,
+        ri.content,
+        ri.commodity_id,
+        ri.reply_user_id replyUserId,
+        ri.create_date AS createDate,
+        ci.title,
+        ci.name as commodityName,
+        ui.code,
+        ui.name as userName,
+        ui.phone,
+        ui.images
+        FROM
+        reply_info ri
+        LEFT JOIN commodity_info ci on
+        (ci.id = ri.commodity_id)
+        LEFT JOIN owner_info ui ON (ui.id = ri.user_id)
+        WHERE
+        ri.del_flag = 0
+        <if test="replyInfo.title != null and replyInfo.title != ''">
+            AND ci.title LIKE CONCAT('%',#{replyInfo.title},'%')
+        </if>
+        <if test="replyInfo.userName != null and replyInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{replyInfo.userName},'%')
+        </if>
+        ORDER BY ri.create_date DESC
+    </select>
+
+    <!-- 获取具体的帖子回复信息 -->
+    <select id="replyListByPostId" resultType="java.util.LinkedHashMap">
+        SELECT
+            ri.id,
+            ri.user_id AS userId,
+            ri.content,
+            ri.commodity_id,
+            ri.reply_user_id replyUserId,
+            ri.create_date,
+            ci.title,
+            ui.name as username,
+            ui.images,
+            ui1.name as replyUserName,
+            ui1.images as replyUserImage
+        FROM
+            reply_info ri
+                LEFT JOIN commodity_info ci ON ( ri.commodity_id = ci.id )
+                LEFT JOIN owner_info ui ON (ui.id = ri.user_id)
+                LEFT JOIN owner_info ui1 ON (ui1.id = ri.reply_user_id)
+        WHERE
+          1 = 1
+          AND ri.commodity_id = #{ commodityId }
+        ORDER BY
+            ri.create_date ASC
+    </select>
+</mapper>

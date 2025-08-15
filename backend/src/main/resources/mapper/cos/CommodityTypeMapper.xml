@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.CommodityTypeMapper">
+
+    <!-- 分页获取商品类型信息 -->
+    <select id="selectCommodityPage" resultType="java.util.LinkedHashMap">
+        select
+        id,
+        code,
+        name,
+        images,
+        create_by,
+        create_date
+        from
+        commodity_type
+        where 1 = 1
+        <if test="commodityType.code != null and commodityType.code != ''">
+            AND code LIKE CONCAT('%',#{commodityType.code},'%')
+        </if>
+        <if test="commodityType.name != null and commodityType.name != ''">
+            AND name LIKE CONCAT('%',#{commodityType.name},'%')
+        </if>
+        order by create_by desc
+
+    </select>
+</mapper>

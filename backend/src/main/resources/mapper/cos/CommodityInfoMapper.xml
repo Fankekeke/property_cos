@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.CommodityInfoMapper">
+
+    <!-- 分页获取商品信息 -->
+    <select id="selectCommodityPage" resultType="java.util.LinkedHashMap">
+        select
+        coi.id,
+        coi.code,
+        coi.title,
+        coi.content,
+        coi.name,
+        coi.type_id,
+        coi.brand,
+        coi.model,
+        coi.quality,
+        coi.user_id,
+        coi.click_num,
+        coi.click_time,
+        coi.price,
+        coi.store_num,
+        coi.create_time,
+        coi.update_time,
+        coi.status,
+        coi.images,
+        ui.code,
+        ui.name as userName,
+        ui.phone,
+        ct.name as typeName
+        from
+        commodity_info coi
+        left join owner_info ui on
+        (ui.id = coi.user_id)
+        left join commodity_type ct on
+        (ct.id = coi.type_id)
+        where
+        1 = 1
+        <if test="commodityInfo.id != null and commodityInfo.id != ''">
+            AND coi.id = #{commodityInfo.id}
+        </if>
+        <if test="commodityInfo.userId != null and commodityInfo.userId != ''">
+            AND ui.user_id = #{commodityInfo.userId}
+        </if>
+        <if test="commodityInfo.userName != null and commodityInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{commodityInfo.userName},'%')
+        </if>
+        <if test="commodityInfo.typeName != null and commodityInfo.typeName != ''">
+            AND ct.name LIKE CONCAT('%',#{commodityInfo.typeName},'%')
+        </if>
+        <if test="commodityInfo.title != null and commodityInfo.title != ''">
+            AND coi.title LIKE CONCAT('%',#{commodityInfo.title},'%')
+        </if>
+        <if test="commodityInfo.status != null and commodityInfo.status != ''">
+            AND coi.status = #{commodityInfo.status}
+        </if>
+        order by
+        coi.create_time desc
+    </select>
+
+    <!-- 根据ID获取商品信息 -->
+    <select id="selectCommodityById" resultType="java.util.LinkedHashMap">
+        select
+        coi.id,
+        coi.code,
+        coi.title,
+        coi.content,
+        coi.name,
+        coi.type_id,
+        coi.brand,
+        coi.model,
+        coi.quality,
+        coi.user_id,
+        coi.click_num,
+        coi.click_time,
+        coi.price,
+        coi.store_num,
+        coi.create_time,
+        coi.update_time,
+        coi.status,
+        coi.images,
+        ui.code,
+        ui.name as userName,
+        ui.phone,
+        ui.user_id as oldUserId,
+        ct.name as typeName
+        from
+        commodity_info coi
+        left join owner_info ui on
+        (ui.id = coi.user_id)
+        left join commodity_type ct on
+        (ct.id = coi.type_id)
+        where
+        1 = 1
+          AND coi.id = #{commodityId}
+        order by
+        coi.create_time desc
+    </select>
+</mapper>

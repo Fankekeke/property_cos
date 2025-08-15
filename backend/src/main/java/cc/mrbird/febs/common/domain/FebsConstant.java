@@ -30,7 +30,7 @@ public class FebsConstant {
     public static final String TYPE_MENU = "0";
 
     // 网络资源 Url
-    public static final String MEIZU_WEATHER_URL = "http://aider.meizu.com/app/weather/listWeather";
+    public static final String MEIZU_WEATHER_URL = "https://aider.meizu.com/app/weather/listWeather";
     public static final String MRYW_TODAY_URL = "https://interface.meiriyiwen.com/article/today";
     public static final String MRYW_DAY_URL = "https://interface.meiriyiwen.com/article/day";
     public static final String TIME_MOVIE_HOT_URL = "https://api-m.mtime.cn/Showtime/LocationMovies.api";

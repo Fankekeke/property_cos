@@ -8,24 +8,24 @@
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="业主姓名"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="联系方式"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.phone"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="维修状态"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.repairStatus" allowClear>
                   <a-select-option value="0">未派修</a-select-option>
                   <a-select-option value="1">已派修</a-select-option>
@@ -166,6 +166,33 @@ export default {
       }, {
         title: '联系方式',
         dataIndex: 'phone'
+      }, {
+        title: '维修类型',
+        dataIndex: 'repairType',
+        customRender: (text, row, index) => {
+          switch (text) {
+            case '1':
+              return <a-tag>上下水管道</a-tag>
+            case '2':
+              return <a-tag>落水管</a-tag>
+            case '3':
+              return <a-tag>水箱</a-tag>
+            case '4':
+              return <a-tag>天线</a-tag>
+            case '5':
+              return <a-tag>供电线路</a-tag>
+            case '6':
+              return <a-tag>通讯线路</a-tag>
+            case '7':
+              return <a-tag>照明</a-tag>
+            case '8':
+              return <a-tag>供气线路</a-tag>
+            case '9':
+              return <a-tag>消防设施</a-tag>
+            default:
+              return '- -'
+          }
+        }
       }, {
         title: '维修内容',
         dataIndex: 'content',

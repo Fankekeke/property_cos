@@ -35,6 +35,14 @@ public class WorkerInfoController {
     }
 
     /**
+     * 获取工作人员
+     */
+    @GetMapping("/list/all")
+    public R listByType() {
+        return R.ok(workerInfoService.list());
+    }
+
+    /**
      * 分页查询工作人员信息
      * @param page
      * @param workerInfo

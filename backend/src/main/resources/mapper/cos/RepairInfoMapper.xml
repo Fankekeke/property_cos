@@ -10,6 +10,7 @@
         ri.content,
         ri.images,
         ri.worker,
+        ri.repair_type,
         ri.repair_status AS repairStatus,
         ri.create_date AS createDate,
         oi.name,
@@ -38,7 +39,46 @@
         <if test="repairInfo.repairStatus != null and repairInfo.repairStatus != ''">
             AND ri.repair_status = #{repairInfo.repairStatus}
         </if>
+        <if test="repairInfo.ownerId != null and repairInfo.ownerId != ''">
+            AND oi.user_id = #{repairInfo.ownerId}
+        </if>
         ORDER BY ri.create_date
+    </select>
+
+    <!-- 分页查询房屋维修统计 -->
+    <select id="selectHouseRepairPage" resultType="java.util.LinkedHashMap">
+        select
+        ri.id,
+        ri.repair_type,
+        count(ri.repair_type) as repairNum,
+        ri.code,
+        ri.content,
+        ri.worker,
+        oi.name,
+        oi.phone,
+        hi.address,
+        hi.number,
+        hi.floor
+        from
+        repair_info ri
+        left join houses_info hi on
+        ( hi.id = ri.houses_id )
+        left join owner_info oi on
+        ( oi.id = hi.owner_id )
+        where
+        1 = 1
+        and ri.repair_type is not null
+        <if test="repairInfo.name != null and repairInfo.name != ''">
+            AND oi.name LIKE CONCAT('%',#{repairInfo.name},'%')
+        </if>
+        <if test="repairInfo.houseAddress != null and repairInfo.houseAddress != ''">
+            AND hi.address LIKE CONCAT('%',#{repairInfo.houseAddress},'%')
+        </if>
+        group by
+        ri.houses_id,
+        ri.repair_type
+        order by
+        ri.create_date
     </select>
 
     <!-- 查看维修详情 -->
