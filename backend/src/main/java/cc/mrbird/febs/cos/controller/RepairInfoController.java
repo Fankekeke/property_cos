@@ -2,6 +2,7 @@ package cc.mrbird.febs.cos.controller;
 
 
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.entity.HousesInfo;
 import cc.mrbird.febs.cos.entity.RepairInfo;
 import cc.mrbird.febs.cos.service.IRepairInfoService;
 import cn.hutool.core.date.DateUtil;
@@ -26,6 +27,7 @@ public class RepairInfoController {
 
     /**
      * 查看维修详情
+     *
      * @param repairId
      * @return
      */
@@ -35,7 +37,20 @@ public class RepairInfoController {
     }
 
     /**
+     * 分页查询房屋维修统计
+     *
+     * @param page       分页对象
+     * @param repairInfo 房屋
+     * @return 结果
+     */
+    @GetMapping("/repair/page")
+    public R selectHouseRepairPage(Page<HousesInfo> page, RepairInfo repairInfo) {
+        return R.ok(repairInfoService.selectHouseRepairPage(page, repairInfo));
+    }
+
+    /**
      * 修改维修状态
+     *
      * @param repairId
      * @return
      */
@@ -46,6 +61,7 @@ public class RepairInfoController {
 
     /**
      * 分页查询维修信息
+     *
      * @param page
      * @param repairInfo
      * @return
@@ -57,30 +73,36 @@ public class RepairInfoController {
 
     /**
      * 添加维修信息
+     *
      * @param repairInfo
      * @return
      */
     @PostMapping
     public R save(RepairInfo repairInfo) {
-        repairInfo.setCode("ORD-"+new Date().getTime());
-        repairInfo.setRepairStatus(0);
+        repairInfo.setCode("ORD-" + System.currentTimeMillis());
+        repairInfo.setRepairStatus("0");
         repairInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(repairInfoService.save(repairInfo));
     }
 
     /**
      * 修改维修信息
+     *
      * @param repairInfo
      * @return
      */
     @PutMapping
     public R edit(RepairInfo repairInfo) {
-        repairInfo.setRepairStatus(1);
+        repairInfo.setRepairStatus("1");
+        // 分析此房屋维修情况
+        RepairInfo repair = repairInfoService.getById(repairInfo.getId());
+        repairInfoService.repairAnalyze(repair.getHousesId());
         return R.ok(repairInfoService.updateById(repairInfo));
     }
 
     /**
      * 删除维修信息
+     *
      * @param ids
      * @return
      */

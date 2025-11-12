@@ -26,6 +26,9 @@ public interface HousesInfoMapper extends BaseMapper<HousesInfo> {
     // 查询房屋本月是否有缴费项
     List<LinkedHashMap<String, Object>> housesConsumptionMonth(@Param("housesId") Integer housesId);
 
+    // 查询房屋是否有缴费项
+    List<LinkedHashMap<String, Object>> housesConsumptionCheck(@Param("housesId") Integer housesId, @Param("date") String date);
+
     // 房屋类型占比
     List<LinkedHashMap<String, Object>> housesTypeRate();
 

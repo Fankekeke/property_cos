@@ -16,4 +16,10 @@ public interface IPaymentManageService extends IService<PaymentManage> {
     // 分页查询缴纳费用管理
     IPage<LinkedHashMap<String, Object>> paymentManageByPage(Page page, PaymentManage paymentManage);
 
+    /**
+     * 管理员获取统计信息
+     *
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> selectHomeDataByAdmin();
 }
