@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.SafetyInspectionMapper">
+
+    <!-- 分页获取安全巡检信息 -->
+    <select id="selectSafetyInspectionPage" resultType="java.util.LinkedHashMap">
+        select
+        si.id,
+        si.staff_id,
+        si.station_name,
+        si.check_type,
+        si.check_date,
+        si.content,
+        si.images,
+        wi.name,
+        wi.image as staffImages,
+        wi.phone
+        from
+        safety_inspection si
+        left join worker_info wi on
+        (wi.id = si.staff_id)
+        where
+        1 = 1
+        <if test="safetyInspection.stationName != null and safetyInspection.stationName != ''">
+            AND si.station_name LIKE CONCAT('%',#{safetyInspection.stationName},'%')
+        </if>
+        <if test="safetyInspection.staffName != null and safetyInspection.staffName != ''">
+            AND wi.name LIKE CONCAT('%',#{safetyInspection.staffName},'%')
+        </if>
+        <if test="safetyInspection.checkType != null and safetyInspection.checkType != ''">
+            AND si.check_type = #{safetyInspection.checkType}
+        </if>
+        order by
+        si.check_date desc
+    </select>
+</mapper>

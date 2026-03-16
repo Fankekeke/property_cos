@@ -8,33 +8,90 @@
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="业主姓名"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="房屋地址"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.address"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
                 label="缴费类型"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
                 <a-select v-model="queryParams.type" allowClear>
                   <a-select-option v-for="(item, index) in propertyList" :key="index" :value="item.id">{{ item.name }}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="缴费状态"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-select v-model="queryParams.payStatus" allowClear>
+                  <a-select-option value="1">未缴费</a-select-option>
+                  <a-select-option value="2">已缴费</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
           </div>
+          <a-row v-if="advanced" :gutter="15">
+            <a-col :md="6" :sm="24" >
+              <a-form-item
+                label="缴费年份"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-select v-model="queryParams.year" allowClear>
+                  <a-select-option value="2022">2022</a-select-option>
+                  <a-select-option value="2023">2023</a-select-option>
+                  <a-select-option value="2024">2024</a-select-option>
+                  <a-select-option value="2025">2025</a-select-option>
+                  <a-select-option value="2026">2026</a-select-option>
+                  <a-select-option value="2027">2027</a-select-option>
+                  <a-select-option value="2028">2028</a-select-option>
+                  <a-select-option value="2029">2029</a-select-option>
+                  <a-select-option value="2030">2030</a-select-option>
+                  <a-select-option value="2031">2031</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24" >
+              <a-form-item
+                label="缴费月份"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-select v-model="queryParams.month" allowClear>
+                  <a-select-option value="1">1</a-select-option>
+                  <a-select-option value="2">2</a-select-option>
+                  <a-select-option value="3">3</a-select-option>
+                  <a-select-option value="4">4</a-select-option>
+                  <a-select-option value="5">5</a-select-option>
+                  <a-select-option value="6">6</a-select-option>
+                  <a-select-option value="7">7</a-select-option>
+                  <a-select-option value="8">8</a-select-option>
+                  <a-select-option value="9">9</a-select-option>
+                  <a-select-option value="10">10</a-select-option>
+                  <a-select-option value="11">11</a-select-option>
+                  <a-select-option value="12">12</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
             <a-button style="margin-left: 8px" @click="reset">重置</a-button>
+            <a @click="toggleAdvanced" style="margin-left: 8px">
+            {{advanced ? '收起' : '展开'}}
+            <a-icon :type="advanced ? 'up' : 'down'" />
+          </a>
           </span>
         </a-row>
       </a-form>
@@ -87,6 +144,12 @@
       @success="handlePaymentAddSuccess"
       :paymentAddVisiable="paymentAdd.visiable">
     </payment-add>
+<!--    <payment-add-new-->
+<!--      v-if="paymentAdd.visiable"-->
+<!--      @close="handlePaymentAddClose"-->
+<!--      @success="handlePaymentAddSuccess"-->
+<!--      :paymentAddVisiable="paymentAdd.visiable">-->
+<!--    </payment-add-new>-->
     <payment-edit
       ref="paymentEdit"
       @close="handlePaymentEditClose"
@@ -108,11 +171,12 @@ import PaymentEdit from './PaymentEdit'
 import PaymentView from './PaymentView'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import PaymentAddNew from './PaymentAddNew.vue'
 moment.locale('zh-cn')
 
 export default {
   name: 'payment',
-  components: {PaymentAdd, PaymentEdit, PaymentView, RangeDate},
+  components: {PaymentAddNew, PaymentAdd, PaymentEdit, PaymentView, RangeDate},
   data () {
     return {
       advanced: false,
@@ -343,6 +407,15 @@ export default {
       }
       if (params.type === undefined) {
         delete params.type
+      }
+      if (params.payStatus === undefined) {
+        delete params.payStatus
+      }
+      if (params.year === undefined) {
+        delete params.year
+      }
+      if (params.month === undefined) {
+        delete params.month
       }
       this.$get('/cos/payment-manage/page', {
         ...params

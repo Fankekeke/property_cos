@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.ParkInfoMapper">
+
+    <!-- 分页获取停车位信息 -->
+    <select id="selectParkInfoPage" resultType="java.util.LinkedHashMap">
+        SELECT
+            pi.id,
+            pi.`code`,
+            pi.`name`,
+            pi.address,
+            pi.owner_id,
+            pi.remark,
+            pi.create_date,
+            oi.`name` AS ownerName,
+            oi.images,
+            pi.park_size,
+            pi.status,
+            oi.phone
+        FROM
+            park_info pi
+                LEFT JOIN owner_info oi ON ( oi.id = pi.owner_id )
+        WHERE
+            1 = 1
+        <if test="parkInfo.name != null and parkInfo.name != ''">
+            AND pi.name LIKE CONCAT('%',#{parkInfo.name},'%')
+        </if>
+        <if test="parkInfo.code != null and parkInfo.code != ''">
+            AND pi.code LIKE CONCAT('%',#{parkInfo.code},'%')
+        </if>
+        <if test="parkInfo.ownerName != null and parkInfo.ownerName != ''">
+            AND oi.`name` LIKE CONCAT('%',#{parkInfo.ownerName},'%')
+        </if>
+        <if test="parkInfo.ownerId != null">
+            AND oi.user_id = #{parkInfo.ownerId}
+        </if>
+        ORDER BY
+            pi.create_date DESC
+    </select>
+</mapper>

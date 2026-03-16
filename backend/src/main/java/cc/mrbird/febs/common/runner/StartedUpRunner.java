@@ -25,7 +25,7 @@ public class StartedUpRunner implements ApplicationRunner {
             log.info("/ /`  / / \\ | |\\/| | |_) | |   | |_   | |  | |_  ");
             log.info("\\_\\_, \\_\\_/ |_|  | |_|   |_|__ |_|__  |_|  |_|__ ");
             log.info("                                                      ");
-            log.info("FEBS 启动完毕，时间：" + LocalDateTime.now());
+            log.info("FanK 启动完毕，时间：" + LocalDateTime.now());
         }
     }
 }

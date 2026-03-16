@@ -31,7 +31,18 @@ public class PaymentManageController {
     }
 
     /**
+     * 管理员获取统计信息
+     *
+     * @return 结果
+     */
+    @GetMapping("/admin/homeData")
+    public R selectHomeDataByAdmin() {
+        return R.ok(paymentManageService.selectHomeDataByAdmin());
+    }
+
+    /**
      * 添加房屋缴费管理
+     *
      * @param paymentManageStr
      * @return
      */
@@ -44,6 +55,7 @@ public class PaymentManageController {
 
     /**
      * 分页查询缴纳费用管理
+     *
      * @param page
      * @param paymentManage
      * @return
@@ -55,6 +67,7 @@ public class PaymentManageController {
 
     /**
      * 添加缴纳费用管理
+     *
      * @param paymentManage
      * @return
      */
@@ -65,6 +78,7 @@ public class PaymentManageController {
 
     /**
      * 修改缴纳费用管理
+     *
      * @param paymentManage
      * @return
      */
@@ -75,6 +89,7 @@ public class PaymentManageController {
 
     /**
      * 删除缴纳费用管理
+     *
      * @param ids
      * @return
      */

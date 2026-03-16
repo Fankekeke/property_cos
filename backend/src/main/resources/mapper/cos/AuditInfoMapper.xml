@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.AuditInfoMapper">
+
+    <!-- 分页获取活动审核信息 -->
+    <select id="selectAuditInfoPage" resultType="java.util.LinkedHashMap">
+        select
+        ai.id,
+        ai.conference_id,
+        ai.owner_id,
+        ai.status,
+        ai.create_date,
+        ai.audit_date,
+        ci.title,
+        ci.address,
+        ci.start_time,
+        ci.end_time,
+        oi.name,
+        oi.images
+        from
+        audit_info ai
+        left join conference_info ci on (ci.id = ai.conference_id)
+        left join owner_info oi on (oi.id = ai.owner_id)
+        where 1 = 1
+        <if test="auditInfo.name != null and auditInfo.name != ''">
+            AND oi.name LIKE CONCAT('%',#{auditInfo.name},'%')
+        </if>
+        <if test="auditInfo.title != null and auditInfo.title != ''">
+            AND ci.title LIKE CONCAT('%',#{auditInfo.title},'%')
+        </if>
+        order by ai.create_date desc
+
+    </select>
+</mapper>

@@ -20,7 +20,6 @@ import javax.validation.constraints.NotBlank;
 public class WeatherController {
 
     @GetMapping
-    @RequiresPermissions("weather:view")
     public FebsResponse queryWeather(@NotBlank(message = "{required}") String areaId) throws FebsException {
         try {
             String data = HttpUtil.sendPost(FebsConstant.MEIZU_WEATHER_URL, "cityIds=" + areaId);

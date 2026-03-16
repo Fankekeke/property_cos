@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.OrderInfoMapper">
+
+    <!-- 分页获取订单订单信息 -->
+    <select id="selectOrderPage" resultType="java.util.LinkedHashMap">
+        select
+        oi.id,
+        oi.code,
+        oi.buy_user_id,
+        oi.sell_user_id,
+        oi.commodity_id,
+        oi.total_price,
+        oi.total_after_price,
+        oi.pay_status,
+        oi.pey_type,
+        oi.logistics,
+        oi.create_date,
+        oi.pay_time,
+        ui.code,
+        ui.name as userName,
+        ui.phone,
+        coi.title,
+        coi.name as commodityName,
+        ct.name as typeName,
+        coi.images,
+        coi.price,
+        coi.store_num
+        from
+        order_info oi
+        left join owner_info ui on
+        (ui.id = oi.buy_user_id)
+        left join owner_info ui2 on
+        (ui2.id = oi.sell_user_id)
+        left join commodity_info coi on
+        (coi.id = oi.commodity_id)
+        left join commodity_type ct on
+        (ct.id = coi.type_id)
+        where
+        1 = 1
+        <if test="orderInfo.buyUserId != null and orderInfo.buyUserId != ''">
+            AND ui.user_id = #{orderInfo.buyUserId}
+        </if>
+        <if test="orderInfo.sellUserId != null and orderInfo.sellUserId != ''">
+            AND ui2.user_id = #{orderInfo.sellUserId}
+        </if>
+        <if test="orderInfo.code != null and orderInfo.code != ''">
+            AND oi.code LIKE CONCAT('%',#{orderInfo.code},'%')
+        </if>
+        <if test="orderInfo.userName != null and orderInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{orderInfo.userName},'%')
+        </if>
+        <if test="orderInfo.commodityName != null and orderInfo.commodityName != ''">
+            AND coi.name LIKE CONCAT('%',#{orderInfo.commodityName},'%')
+        </if>
+        <if test="orderInfo.typeName != null and orderInfo.typeName != ''">
+            AND ct.name LIKE CONCAT('%',#{orderInfo.typeName},'%')
+        </if>
+        order by
+        oi.create_date desc
+    </select>
+
+    <!-- 近十天内订单统计 -->
+    <select id="selectOrderNumWithinDays" resultType="java.util.LinkedHashMap">
+        SELECT
+        DATE_FORMAT( spo.days, '%m-%d' ) AS days,
+        IFNULL(COUNT(oi.id), 0) AS count
+        FROM
+        (
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 0 DAY ) days UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 1 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 2 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 3 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 4 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 5 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 6 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 7 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 8 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 9 DAY )) spo
+        LEFT JOIN order_info oi ON (
+        DATE_FORMAT( oi.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' )
+        )
+        GROUP BY
+        days
+        ORDER BY
+        days ASC
+    </select>
+
+    <!-- 近十天内收益统计 -->
+    <select id="selectOrderPriceWithinDays" resultType="java.util.LinkedHashMap">
+        SELECT
+        DATE_FORMAT( spo.days, '%m-%d' ) AS days,
+        IFNULL(SUM(oi.total_after_price), 0) AS price
+        FROM
+        (
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 0 DAY ) days UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 1 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 2 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 3 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 4 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 5 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 6 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 7 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 8 DAY ) UNION
+        SELECT
+        DATE_SUB( curdate(), INTERVAL + 9 DAY )) spo
+        LEFT JOIN order_info oi ON (
+        DATE_FORMAT( oi.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' )
+        )
+        GROUP BY
+        days
+        ORDER BY
+        days ASC
+    </select>
+
+    <!-- 查询本月订单 -->
+    <select id="selectOrderByMonth" resultType="cc.mrbird.febs.cos.entity.OrderInfo">
+        select
+        oi.id,
+        oi.code,
+        oi.buy_user_id,
+        oi.sell_user_id,
+        oi.commodity_id,
+        oi.total_price,
+        oi.total_after_price,
+        oi.pay_status,
+        oi.pey_type,
+        oi.logistics,
+        oi.create_date,
+        oi.pay_time
+        from
+        order_info oi
+        where
+        DATE_FORMAT( oi.create_date, '%Y%m' ) = DATE_FORMAT(
+        CURDATE(),
+        '%Y%m')
+    </select>
+
+    <!-- 查询本年订单 -->
+    <select id="selectOrderByYear" resultType="cc.mrbird.febs.cos.entity.OrderInfo">
+        select
+        oi.id,
+        oi.code,
+        oi.buy_user_id,
+        oi.sell_user_id,
+        oi.commodity_id,
+        oi.total_price,
+        oi.total_after_price,
+        oi.pay_status,
+        oi.pey_type,
+        oi.logistics,
+        oi.create_date,
+        oi.pay_time
+        from
+        order_info oi
+        where
+        DATE_FORMAT( oi.create_date, '%Y' ) = DATE_FORMAT(
+        CURDATE(),
+        '%Y')
+    </select>
+
+    <!-- 订单销售类别统计 -->
+    <select id="selectOrderType" resultType="java.util.LinkedHashMap">
+        select count(oi.id) as count, ct.name from
+        order_info oi
+        left join commodity_info ci on
+        (ci.id = oi.commodity_id)
+        left join commodity_type ct on
+        (ct.id = ci.type_id)
+        where 1 = 1
+        group by ci.type_id
+    </select>
+</mapper>

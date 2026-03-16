@@ -26,6 +26,9 @@ public interface IHousesInfoService extends IService<HousesInfo> {
     // 查询房屋本月是否有缴费项
     List<LinkedHashMap<String, Object>> housesConsumptionMonth(Integer housesId);
 
+    // 查询房屋是否有缴费项
+    List<LinkedHashMap<String, Object>> housesConsumptionCheck(Integer housesId, String date);
+
     // 进入主页
     LinkedHashMap<String, Object> home(Integer type);
 
